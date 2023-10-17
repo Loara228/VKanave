@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VKanave.Views.LoginPage"
+             BackgroundColor="#4680C2">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout>
+            <Label 
+            Text="ВКанаве"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="18"
+            FontAttributes="Bold"
+            Margin="50"/>
+            <!--текстбокс логина и пароля-->
+            <Grid RowSpacing="20" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Entry Placeholder="username"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   PlaceholderColor="#CFCFCF"
+                       x:Name="textboxUsername"/>
+                <Entry Placeholder="password"
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   PlaceholderColor="#CFCFCF"
+                   IsPassword="True"
+                       x:Name="textboxPassword"/>
+            </Grid>
+            <!--Кнопка для авторизации-->
+            <Grid Margin="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0"
+                    Grid.Row="0"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    Text="Войти"
+                    TextColor="#4680C2"
+                        x:Name="buttonAuth"/>
+            </Grid>
+        </VerticalStackLayout>
+        <Path
+                Grid.Row="1"
+                VerticalOptions="Start"
+                Data="m0,268.11206l536,0l0,-201.29855c-145.19331,-69.62743 -182.29117,-91.67208 -536,-33.11978l0,234.41833z" Fill="#ffffff"/>
+        <Label Text="Зарегистрироваться"
+               TextColor="#4680C2"
+               Grid.Row="1"
+               VerticalOptions="End"
+               Margin="10"
+               FontSize="14"
+               TextDecorations="Underline"/>
+    </Grid>
+</ContentPage>
