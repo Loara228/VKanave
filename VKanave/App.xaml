@@ -5,6 +5,15 @@
              x:Class="VKanave.App">
     <Application.Resources>
         <ResourceDictionary>
+
+            <Color x:Key="PrimaryColor">#4680C2</Color>
+            <Color x:Key="SecondaryColor">White</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}"/>
+                <Setter Property="FontFamily" Value="OpenSansRegular"/>
+            </Style>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

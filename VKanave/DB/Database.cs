@@ -10,9 +10,12 @@ namespace VKanave.DB
 {
     internal class Database
     {
-        public static void Initialize(string hostname, string database, string user = "root", string password = "")
+        public static bool Initialize(string hostname, string database, out Exception exception, string user = "root", string password = "")
         {
             sqlConnection = new MySqlConnection($"Server={hostname};Port=3306;Database={database};Uid={user};Pwd={password}");
+            bool result = Open(out exception);
+            sqlConnection.Close();
+            return result;
         }
 
         public static bool Open(out Exception exc)
@@ -45,8 +48,6 @@ namespace VKanave.DB
                 return exception;
             }
         }
-
-        public static readonly string tableSchema = "users", tableName = "userList";
 
         private static MySqlConnection sqlConnection;
 
