@@ -2,11 +2,89 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VKanave.Views.LoginPage"
-             BackgroundColor="#4680C2">
+             BackgroundColor="{StaticResource PrimaryColor}">
     <Grid>
-        <Path
-                Grid.Row="1"
-                VerticalOptions="Start"
-                Data="m0,268.11206l536,0l0,-201.29855c-145.19331,-69.62743 -182.29117,-91.67208 -536,-33.11978l0,234.41833z" Fill="#ffffff"/>
+        <StackLayout Margin="20">
+            <!--#region Logo & Title-->
+            <StackLayout Orientation="Horizontal">
+                <Image Source="vk_logo.png"
+                       HorizontalOptions="StartAndExpand"
+                       WidthRequest="150"/>
+                <StackLayout Margin="0, 45">
+                    <Label Style="{StaticResource text}"
+                           HorizontalOptions="EndAndExpand"
+                           FontSize="16"
+                           Text="Авторизация"/>
+                    <Label Style="{StaticResource text}"
+                           HorizontalOptions="EndAndExpand"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           Text="ВКанаве"/>
+                </StackLayout>
+            </StackLayout>
+            <!--#endregion-->
+            <!--#region username textbox-->
+            <StackLayout>
+                <Label Style="{StaticResource text}"
+                       FontSize="16"
+                       Text="Username"/>
+                <Grid>
+                    <Frame 
+                           BackgroundColor="White"
+                           BorderColor="Transparent"
+                           CornerRadius="10"
+                           HeightRequest="50"
+                           Padding="5">
+                        <Entry BackgroundColor="White"
+                               TextColor="Black"
+                               PlaceholderColor="Gray"
+                               Placeholder="Enter username"
+                               Margin="5,0"/>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+            <!--#endregion-->
+            <!--#region password textbox-->
+            <StackLayout>
+                <Label Style="{StaticResource text}"
+                   FontSize="16"
+                   Text="Password"/>
+                <Grid>
+                    <Frame 
+                           BackgroundColor="White"
+                           BorderColor="Transparent"
+                           CornerRadius="10"
+                           HeightRequest="50"
+                           Padding="5">
+                        <Entry BackgroundColor="White"
+                               IsPassword="True"
+                               TextColor="Black"
+                               PlaceholderColor="Gray"
+                               Placeholder="Enter password"
+                               Margin="5,0"/>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+            <!--#endregion-->
+            <Button Margin="0, 20"
+                    CornerRadius="25"
+                    Text="Sign in"
+                    TextColor="{StaticResource PrimaryColor}"
+                    Clicked="Button_SignIn_Clicked"/>
+            <!--#region footer-->
+            <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal">
+                <Label TextColor="{StaticResource SecondaryColor}"
+                       Text="Forgot password?"
+                       HorizontalOptions="StartAndExpand"
+                       VerticalOptions="EndAndExpand"
+                       TextDecorations="Underline"/>
+                <Label TextColor="{StaticResource SecondaryColor}"
+                       Text="Sign up"
+                       HorizontalOptions="EndAndExpand"
+                       VerticalOptions="EndAndExpand"
+                       TextDecorations="Underline"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
     </Grid>
 </ContentPage>

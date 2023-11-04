@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VKanave", "VKanave\VKanave.csproj", "{CBCF0EA9-B244-4D12-B98D-FD9D094B402F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VKanaveServer", "VKanaveServer\VKanaveServer.csproj", "{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{CBCF0EA9-B244-4D12-B98D-FD9D094B402F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBCF0EA9-B244-4D12-B98D-FD9D094B402F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBCF0EA9-B244-4D12-B98D-FD9D094B402F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

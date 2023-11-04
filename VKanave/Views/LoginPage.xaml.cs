@@ -1,13 +1,18 @@
-﻿namespace VKanave.Views;
+﻿using VKanave.Networking;
+
+namespace VKanave.Views;
 
 public partial class LoginPage : ContentPage
 {
 	public LoginPage()
 	{
 		InitializeComponent();
-		buttonAuth.Clicked += async (s, e) =>
-		{
-			await DisplayAlert("", "На маму свою кликни", "ok");
-		};
+		Connection.InitializeLocal();
+		Connection.Current.Connect();
 	}
+
+    private void Button_SignIn_Clicked(object sender, EventArgs e)
+    {
+		Networking.Networking.SendData("Hello World");
+    }
 }

@@ -6,10 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <Color x:Key="PrimaryColor">#4680C2</Color>
+            <Color x:Key="PrimaryColor">#2288F5</Color>
             <Color x:Key="SecondaryColor">White</Color>
 
-            <Style TargetType="Label">
+            <Style x:Key="text" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}"/>
                 <Setter Property="FontFamily" Value="OpenSansRegular"/>
             </Style>
