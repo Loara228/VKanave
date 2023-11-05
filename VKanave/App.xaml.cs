@@ -8,7 +8,7 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new LoginPage();
+		MainPage = new AppShell();
 	}
 
     protected override Window CreateWindow(IActivationState activationState)
@@ -16,7 +16,7 @@ public partial class App : Application
         Window window = base.CreateWindow(activationState);
 
 		window.Width = 450;
-		window.Height = 800;
+		window.Height = 850;
 
 		return window;
     }

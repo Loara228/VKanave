@@ -13,7 +13,7 @@ namespace VKanaveServer.Core
         private Server(IPAddress adress, uint port)
         {
             Connections = new List<Connection>();
-            _listner = new TcpListener(adress, (int)port);
+            _listner = new TcpListener(IPAddress.Any, (int)port);
             _address = adress;
             _port = port;
         }
@@ -25,7 +25,7 @@ namespace VKanaveServer.Core
 
         internal static void InitializeLocal()
         {
-            Current = new Server(IPAddress.Parse("127.0.0.1"), 228);
+            Current = new Server(IPAddress.Parse(Program.IPAddress), 228);
         }
 
         internal void Start()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VKanave.Networking
 {
-    internal class Connection
+    public class Connection
     {
         private Connection(string hostname, uint port)
         {
@@ -23,12 +23,24 @@ namespace VKanave.Networking
 
         internal static void InitializeLocal()
         {
+#if WINDOWS
             Current = new Connection("127.0.0.1", 228);
+#endif
+#if ANDROID
+            Current = new Connection("10.0.2.2", 228);
+#endif
         }
 
         internal void Connect()
         {
             Current.Client.Connect(_hostname, (int)_port);
+            new Thread(() =>
+            {
+                while(true)
+                {
+                    Networking.ReceiveData();
+                }
+            }).Start();
         }
 
         internal static Connection Current

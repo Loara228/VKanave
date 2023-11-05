@@ -4,14 +4,23 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using VKanave.Networking.NetMessages;
 
 namespace VKanaveServer.Core
 {
-    internal class Connection
+    public class Connection
     {
         private Connection(TcpClient client)
         {
             Client = client;
+            Index = _connectionIndexCount;
+            _connectionIndexCount++;
+            Program.Log(LogType.Connection, $"Connected ({Index})");
+        }
+
+        public void Send(NetMessage message)
+        {
+            Networking.SendData(this, message);
         }
 
         private void Start()
@@ -20,7 +29,6 @@ namespace VKanaveServer.Core
             {
                 while(true)
                 {
-                    Console.WriteLine("Reading...");
                     Networking.ReceiveData(this);
                 }
             }).Start();
@@ -42,5 +50,12 @@ namespace VKanaveServer.Core
         {
             get => Client.GetStream();
         }
+
+        internal int Index
+        {
+            get; set;
+        }
+
+        private static int _connectionIndexCount;
     }
 }
