@@ -1,4 +1,5 @@
-﻿using VKanave.Networking.NetMessages;
+﻿using VKanave.DB;
+using VKanave.Networking.NetMessages;
 using VKanaveServer.Core;
 
 namespace VKanaveServer
@@ -7,12 +8,14 @@ namespace VKanaveServer
     {
         static void Main(string[] args)
         {
-            //https://github.com/TheFlyingFoool/DuckGameRebuilt/blob/master/DuckGame/src/DuckGame/Network/NetMessage.cs
-            //return;
             try
             {
+                if (!Database.Initialize(Database.SQLHostname, out Exception exc, Database.SQLUsername, Database.SQLPassword))
+                {
+                    Log(LogType.SQL, exc.Message, true);
+                }
                 Server.InitializeLocal();
-                Log(LogType.System, "init");
+                Log(LogType.System, "Initialized");
                 Server.Current?.Start();
             }
             catch(Exception exc)
@@ -22,12 +25,35 @@ namespace VKanaveServer
             }
         }
 
-        internal static void Log(LogType logType, string message)
+        internal static void Log(LogType logType, string message, bool error = false)
         {
-            Console.WriteLine($"[{logType}]\t{message}");
+            Console.ForegroundColor = error ? ConsoleColor.Red : GetLogColor(logType);
+            string t = "\t";
+            if (logType == LogType.SQL)
+                t += "\t";
+            Console.WriteLine($"[{logType}]{t}{message}");
         }
 
-        internal static string IPAddress
+        private static ConsoleColor GetLogColor(LogType log)
+        {
+            if (log == LogType.System)
+                return ConsoleColor.Gray;
+            else if (log == LogType.Information)
+                return ConsoleColor.DarkCyan;
+            else if (log == LogType.Serialization)
+                return ConsoleColor.Green;
+            else if (log == LogType.Networking)
+                return ConsoleColor.Yellow;
+            else if (log == LogType.NetworkingLow)
+                return ConsoleColor.DarkYellow;
+            else if (log == LogType.SQL)
+                return ConsoleColor.Magenta;
+            else if (log == LogType.Connection)
+                return ConsoleColor.White;
+            return ConsoleColor.Black;
+        }
+
+        internal static string LocalIPAddress
         {
             get
             {
@@ -38,6 +64,7 @@ namespace VKanaveServer
             }
         }
 
-        private const bool WINDOWS = true;
+        public const bool LOCAL = true;
+        public const bool WINDOWS = false;
     }
 }

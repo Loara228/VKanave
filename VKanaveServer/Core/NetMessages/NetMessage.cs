@@ -49,7 +49,7 @@ namespace VKanave.Networking.NetMessages
             for (int i = 1; i < Data.Count; i++)
             {
                 Type fieldType = fields[i - 1].FieldType;
-                Program.Log(LogType.Serialization, $"Deserialize: {fieldType}. Size: {Data[i].Length}");
+                Program.Log(LogType.Serialization, $"Deserialize: {fieldType}. Size: {Data[i].Length} bytes");
                 if (fieldType == typeof(int))
                     fields[i - 1].SetValue(this, (int)BitConverter.ToInt32(Data[i], 0));
                 else if (fieldType == typeof(string))

@@ -31,16 +31,26 @@ namespace VKanave.Networking
 #endif
         }
 
-        internal void Connect()
+        internal bool Connect()
         {
-            Current.Client.Connect(_hostname, (int)_port);
-            new Thread(() =>
+            bool result = false;
+            try
             {
-                while(true)
+                Current.Client.Connect(_hostname, (int)_port);
+                result = true;
+                new Thread(() =>
                 {
-                    Networking.ReceiveData();
-                }
-            }).Start();
+                    while (true)
+                    {
+                        Networking.ReceiveData();
+                    }
+                }).Start();
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
         }
 
         internal static Connection Current

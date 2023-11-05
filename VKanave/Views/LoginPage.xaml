@@ -14,12 +14,13 @@
                     <Label Style="{StaticResource text}"
                            HorizontalOptions="EndAndExpand"
                            FontSize="16"
-                           Text="Авторизация"/>
+                           Text="Authorization"
+                           x:Name="label1"/>
                     <Label Style="{StaticResource text}"
                            HorizontalOptions="EndAndExpand"
                            FontSize="32"
                            FontAttributes="Bold"
-                           Text="ВКанаве"/>
+                           Text="VKanave"/>
                 </StackLayout>
             </StackLayout>
             <!--#endregion-->
@@ -29,10 +30,10 @@
                        FontSize="16"
                        Text="Username"/>
                 <Grid>
-                    <Frame 
+                    <Frame x:Name="frameUsername"
                            BackgroundColor="White"
                            BorderColor="Transparent"
-                           CornerRadius="10"
+                           CornerRadius="15"
                            HeightRequest="50"
                            Padding="5">
                         <Entry x:Name="textboxUsername"
@@ -51,10 +52,10 @@
                    FontSize="16"
                    Text="Password"/>
                 <Grid>
-                    <Frame 
+                    <Frame x:Name="framePassword"
                            BackgroundColor="White"
                            BorderColor="Transparent"
-                           CornerRadius="10"
+                           CornerRadius="15"
                            HeightRequest="50"
                            Padding="5">
                         <Entry x:Name="textboxPassword"
@@ -69,22 +70,29 @@
             </StackLayout>
             <!--#endregion-->
             <Button Margin="0, 20"
-                    CornerRadius="25"
+                    CornerRadius="15"
                     Text="Sign in"
                     TextColor="{StaticResource PrimaryColor}"
-                    Clicked="Button_SignIn_Clicked"/>
+                    Clicked="Button_SignIn_Clicked"
+                    x:Name="button1"/>
             <!--#region footer-->
             <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal">
                 <Label TextColor="{StaticResource SecondaryColor}"
                        Text="Forgot password?"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="EndAndExpand"
-                       TextDecorations="Underline"/>
+                       TextDecorations="Underline"
+                       x:Name="label2"/>
                 <Label TextColor="{StaticResource SecondaryColor}"
                        Text="Sign up"
                        HorizontalOptions="EndAndExpand"
                        VerticalOptions="EndAndExpand"
-                       TextDecorations="Underline"/>
+                       TextDecorations="Underline"
+                       x:Name="label3">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
             <!--#endregion-->
         </StackLayout>

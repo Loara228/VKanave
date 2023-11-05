@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VKanave.DB;
+using VKanaveServer;
 using VKanaveServer.Core;
 
 namespace VKanave.Networking.NetMessages
@@ -20,7 +22,20 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
-            from.Send(new NMAuth() { token = "H2A4GSD32KJA2G2F4KAJ23DF" });
+            Exception exc = Database.RunCommand($"SELECT `token` FROM `users` WHERE `username`='{username}' and `password_hash`='{password}'", out SQLTable table);
+            if (exc != null)
+                return;
+            if (table.rows.Count > 0)
+            {
+                string? tokendb = table.rows[0].values[0].ToString();
+                Program.Log(LogType.Information, tokendb);
+                if (tokendb != null)
+                {
+                    from.Send(new NMAuth() { token = tokendb });
+                    return;
+                }
+            }
+            from.Send(new NMAuth() { token = "" });
         }
 
         public string username, password, token;

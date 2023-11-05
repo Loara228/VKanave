@@ -27,11 +27,9 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection connection)
         {
-            
-            if (Shell.Current.CurrentPage is LoginPage)
+            if (LoginPage.Current != null)
             {
-                LoginPage loginPage = Shell.Current.CurrentPage as LoginPage;
-                loginPage.SignIn(token);
+                LoginPage.Current.SignIn(token);
             }
         }
 

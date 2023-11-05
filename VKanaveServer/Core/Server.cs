@@ -21,16 +21,19 @@ namespace VKanaveServer.Core
         internal static void Initialize(IPAddress adress, uint port)
         {
             Current = new Server(adress, port);
+            Program.Log(LogType.Networking, "Initialized");
         }
 
         internal static void InitializeLocal()
         {
-            Current = new Server(IPAddress.Parse(Program.IPAddress), 228);
+            Current = new Server(IPAddress.Parse(Program.LocalIPAddress), 228);
+            Program.Log(LogType.Networking, "Initialized");
         }
 
         internal void Start()
         {
-            while(true)
+            Program.Log(LogType.Networking, "Running");
+            while (true)
             {
                 _listner.Start();
                 AcceptConnection();
@@ -40,7 +43,18 @@ namespace VKanaveServer.Core
         private void AcceptConnection()
         {
             Connection connection = Connection.CreateConnection(_listner.AcceptTcpClient());
-            Connections.Add(connection);
+            lock(_block)
+            {
+                Connections.Add(connection);
+            }
+        }
+
+        public void RemoveConnection(Connection connection)
+        {
+            lock(_block)
+            {
+                Connections.Remove(connection);
+            }
         }
 
         internal static Server? Current
@@ -67,6 +81,8 @@ namespace VKanaveServer.Core
         {
             get; set;
         }
+
+        private static object _block = new object();
 
         private TcpListener _listner;
         private IPAddress _address;

@@ -29,9 +29,30 @@ namespace VKanaveServer.Core
             {
                 while(true)
                 {
-                    Networking.ReceiveData(this);
+                    try
+                    {
+                        Networking.ReceiveData(this);
+                    }
+                    catch
+                    {
+                        Disconnect();
+                        break;
+                    }
                 }
             }).Start();
+        }
+
+        private void Disconnect()
+        {
+            try
+            {
+                Client.Close();
+            }
+            catch
+            {
+                Server.Current?.RemoveConnection(this);
+            }
+            Program.Log(LogType.Connection, $"Disconnect ({Index})");
         }
 
         internal static Connection CreateConnection(TcpClient client)

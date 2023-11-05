@@ -9,9 +9,11 @@ namespace VKanaveServer
     internal enum LogType
     {
         System,
+        Information,
         Serialization,
         Networking,
         NetworkingLow,
-        Connection
+        Connection,
+        SQL
     }
 }

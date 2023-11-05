@@ -4,11 +4,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:VKanave.Views"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Flyout"
+    Shell.NavBarIsVisible="True">
 
     <ShellContent
-        Title="LoginPage"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="MainPage" />
+        Title="Main"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="Main" />
+    <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate local:SettingsPage}"
+        Route="Settings" />
 
 </Shell>

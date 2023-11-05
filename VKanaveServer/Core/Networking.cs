@@ -16,23 +16,24 @@ namespace VKanaveServer.Core
         {
             BinaryReader reader = new BinaryReader(connection.Stream, Encoding.UTF8);
             NetMessage? message = DeserializeData(reader.ReadString());
+            Program.Log(LogType.Networking, $"Received {message}. ({connection.Index})");
             if (message != null)
             {
-                Program.Log(LogType.Networking, $"Deserialized {message}. ({connection.Index})");
                 if (message is NMAction)
                 {
                     (message as NMAction)?.Action(connection);
-                    Program.Log(LogType.Networking, $"{message}.Action()");
+                    Program.Log(LogType.NetworkingLow, $"{message}.Action() ({connection.Index})");
                 }
             }
             else
             {
-                Program.Log(LogType.Networking, $"Empty message {message}. ({connection.Index})");
+                Program.Log(LogType.Networking, $"Empty message {message}. ({connection.Index})", true);
             }
         }
 
         internal static void SendData(Connection connection, NetMessage message)
         {
+            Program.Log(LogType.Networking, $"Sent {message}. ({connection.Index})");
             BinaryWriter writer = new BinaryWriter(connection.Stream, Encoding.UTF8);
             string dataStr = SerializeData(message);
             writer.Write(dataStr);
@@ -44,11 +45,12 @@ namespace VKanaveServer.Core
 
             string messageType = Encoding.UTF8.GetString(data[0]);
 
-            Program.Log(LogType.NetworkingLow, $"Received: {messageType}");
+            Program.Log(LogType.Serialization, $"Deserializing {messageType}");
             Type t = Type.GetType(messageType);
             if (t != null)
             {
                 NetMessage message = (NetMessage)Activator.CreateInstance(t);
+                Program.Log(LogType.Serialization, $"Created {message}");
                 message.Data = data;
                 message.Deserialize();
                 return message;
@@ -58,7 +60,9 @@ namespace VKanaveServer.Core
 
         internal static string SerializeData(NetMessage message)
         {
+            Program.Log(LogType.Serialization, $"Serializing buffer {message}");
             message.Serialize();
+            Program.Log(LogType.Serialization, $"Serializing json {message}");
             return JsonConvert.SerializeObject(message.Data, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
         }
     }
