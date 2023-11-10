@@ -68,7 +68,7 @@ namespace VKanave.Networking
             get; set;
         }
 
-        private string _hostname;
-        private uint _port;
+        private readonly string _hostname;
+        private readonly uint _port;
     }
 }

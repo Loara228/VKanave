@@ -28,23 +28,36 @@ public partial class LoginPage : ContentPage
 
     private void Button_SignIn_Clicked(object sender, EventArgs e)
     {
+        if (MauiProgram.DebugCode == 2)
+        {
+            Navigation.PopModalAsync();
+            return;
+        }
         if (!CheckInputs1())
         {
+            MarkUsername();
             Toast.Make("Username too long or too short.", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             return;
         }
         if (!CheckInputs2())
         {
+            MarkPassword();
             Toast.Make("Password too long or too short.", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            return;
+        }
+        if (!CheckInputs3())
+        {
+            System.Diagnostics.Debug.WriteLine("!!!!!!!");
+            Toast.Make("Username contains invalid charachers.", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             return;
         }
         button1.IsEnabled = false;
         textboxUsername.IsReadOnly = true;
         textboxPassword.IsReadOnly = true;
         if (AuthorizationMode)
-            Networking.Networking.SendData(new NMAuth(textboxUsername.Text, textboxPassword.Text));
+            Networking.Networking.Send(new NMAuth(textboxUsername.Text, textboxPassword.Text));
         else
-            Networking.Networking.SendData(new NMReg(textboxUsername.Text, textboxPassword.Text));
+            Networking.Networking.Send(new NMReg(textboxUsername.Text, textboxPassword.Text));
     }
 
     private bool CheckInputs1()
@@ -65,7 +78,21 @@ public partial class LoginPage : ContentPage
         return true;
     }
 
-    public void SignIn(string token)
+    private bool CheckInputs3()
+    {
+        bool b = true;
+        textboxPassword.Text.ToLower().ToCharArray().ToList().ForEach((x) =>
+        {
+            if (!allowedChars.Contains(x))
+            {
+                b = false;
+                return;
+            }
+        });
+        return b;
+    }
+
+    public void SignIn(string username, string token)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -80,7 +107,7 @@ public partial class LoginPage : ContentPage
             else
             {
                 // auth successfully :)
-                MauiProgram.Token = token;
+                LocalUser.NewUser(username, token);
                 Navigation.PopModalAsync();
             }
         });
@@ -182,6 +209,13 @@ public partial class LoginPage : ContentPage
             }
         }
     }
+
+
+    private readonly List<char> allowedChars = new List<char>()
+    {
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', '_',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    };
 
     private bool _auth = true;
     private bool _animation = false;

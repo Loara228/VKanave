@@ -9,20 +9,22 @@ public partial class ConnectionPage : ContentPage
         InitializeComponent();
         Loaded += async (s, e) =>
         {
-            if (MauiProgram.DebugCode == 1)
+            if (MauiProgram.DebugCode == 1 || MauiProgram.DebugCode == 2)
                 await Continue();
             else
                 Initialize();
         };
     }
 
-    protected override async void OnNavigatedFrom(NavigatedFromEventArgs args)
+    protected override /*async*/ void OnNavigatedFrom(NavigatedFromEventArgs args)
     {
         base.OnNavigatedFrom(args);
 
-        if (!string.IsNullOrEmpty(MauiProgram.Token))
+        if (!string.IsNullOrEmpty(LocalUser.Token))
         {
-            await Navigation.PopModalAsync();
+            activityIndicator1.IsRunning = false;
+            button1.IsVisible = true;
+            //await Navigation.PopModalAsync();
         }
     }
 
@@ -51,5 +53,10 @@ public partial class ConnectionPage : ContentPage
     private async Task Continue()
     {
         await Navigation.PushModalAsync(new LoginPage());
+    }
+
+    private void button1_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
     }
 }

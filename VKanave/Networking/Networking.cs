@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using VKanave.Networking.NetMessages;
@@ -12,43 +13,30 @@ namespace VKanave.Networking
     {
         internal static void ReceiveData()
         {
-            BinaryReader reader = new BinaryReader(Connection.Current.Stream, Encoding.UTF8);
-            NetMessage message = DeserializeData(reader.ReadString());
-            if (message != null)
-            {
-                if (message is NMAction)
-                    (message as NMAction).Action(Connection.Current);
-            }
+            NetworkStream stream = Connection.Current.Stream;
+
+            byte[] data = new byte[1024];
+            stream.Read(data, 0, data.Length);
+
+            if (data[0] == 0 && data[1] == 0 && data[2] == 0)
+                return;
+
+            NetMessage msg = NetMessage.Create(data);
+            msg.Deserialize();
+            PrcMsg(Connection.Current, msg);
         }
 
-        internal static void SendData(NetMessage data)
+        internal static void Send(NetMessage msg)
         {
-            BinaryWriter writer = new BinaryWriter(Connection.Current.Stream, Encoding.UTF8);
-            string dataStr = SerializeData(data);
-            writer.Write(dataStr);
+            msg.Serialize();
+            byte[] data = msg.Buffer;
+            Connection.Current.Stream.Write(data, 0, data.Length);
         }
 
-        internal static NetMessage DeserializeData(string dataStr)
+        internal static void PrcMsg(Connection from, NetMessage msg)
         {
-            List<byte[]>? data = JsonConvert.DeserializeObject<List<byte[]>>(dataStr, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
-
-            string messageType = Encoding.UTF8.GetString(data[0]);
-
-            Type t = Type.GetType(messageType);
-            if (t != null)
-            {
-                NetMessage message = (NetMessage)Activator.CreateInstance(t);
-                message.Data = data;
-                message.Deserialize();
-                return message;
-            }
-            return null;
-        }
-
-        internal static string SerializeData(NetMessage message)
-        {
-            message.Serialize();
-            return JsonConvert.SerializeObject(message.Data, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+            if (msg is NMAction)
+                (msg as NMAction).Action(from);
         }
     }
 }

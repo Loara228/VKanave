@@ -8,5 +8,10 @@
         <ActivityIndicator IsRunning="True" WidthRequest="80" HeightRequest="80"
                            x:Name="activityIndicator1"
                            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+        <Button x:Name="button1"
+                VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                IsVisible="False"
+                Clicked="button1_Clicked"
+                Text="Load messages"/>
     </StackLayout>
 </ContentPage>

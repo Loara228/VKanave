@@ -31,7 +31,9 @@ namespace VKanave.Networking.NetMessages
                 Program.Log(LogType.Information, tokendb);
                 if (tokendb != null)
                 {
-                    from.Send(new NMAuth() { token = tokendb });
+                    NMAuth msg = new NMAuth() { token = tokendb };
+                    msg.username = this.username;
+                    from.Send(msg);
                     return;
                 }
             }

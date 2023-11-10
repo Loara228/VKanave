@@ -29,7 +29,7 @@ namespace VKanave.Networking.NetMessages
         {
             if (LoginPage.Current != null)
             {
-                LoginPage.Current.SignIn(token);
+                LoginPage.Current.SignIn(username, token);
             }
         }
 

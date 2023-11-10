@@ -11,6 +11,7 @@ namespace VKanaveServer
         System,
         Information,
         Serialization,
+        SerializationLow,
         Networking,
         NetworkingLow,
         Connection,

@@ -14,11 +14,10 @@ namespace VKanave.DB
         internal static bool Initialize(string hostname, out Exception exception, string user = "root", string password = "")
         {
             _sqlConnection = new MySqlConnection($"Server={hostname};Port=3306;Database=vk;Uid={user};Pwd={password}");
-            Program.Log(LogType.SQL, "Initialized");
             bool result = Open(out exception);
             if (result)
                 Close();
-            Program.Log(LogType.SQL, "Ready");
+            Program.Log(LogType.SQL, "Initialized");
             return result;
         }
 
@@ -44,12 +43,13 @@ namespace VKanave.DB
         internal static DateTime UnixTimeToDateTime(long unixtime)
         {
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddMilliseconds(unixtime);
+            dtDateTime = dtDateTime.AddSeconds(unixtime);
             return dtDateTime;
         }
 
         internal static Exception RunCommand(string commandStr, out SQLTable table)
         {
+            Program.Log(LogType.SQL, commandStr);
             Exception exc;
             table = new SQLTable();
             try

@@ -75,6 +75,8 @@
                     TextColor="{StaticResource PrimaryColor}"
                     Clicked="Button_SignIn_Clicked"
                     x:Name="button1"/>
+            <ActivityIndicator x:Name="activityIndicator"
+                               IsRunning="False"/>
             <!--#region footer-->
             <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal">
                 <Label TextColor="{StaticResource SecondaryColor}"

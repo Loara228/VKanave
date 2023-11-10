@@ -5,11 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:VKanave.Views"
     Shell.FlyoutBehavior="Flyout"
-    Shell.NavBarIsVisible="True">
+    Shell.NavBarIsVisible="True"
+    Shell.BackgroundColor="#272938">
 
     <ShellContent
-        Title="Main"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        Title="Chats"
+        ContentTemplate="{DataTemplate local:ChatsPage}"
         Route="Main" />
     <ShellContent
         Title="Settings"

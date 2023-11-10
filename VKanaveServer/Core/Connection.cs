@@ -20,7 +20,7 @@ namespace VKanaveServer.Core
 
         public void Send(NetMessage message)
         {
-            Networking.SendData(this, message);
+            Networking.Send(this, message);
         }
 
         private void Start()
@@ -33,8 +33,9 @@ namespace VKanaveServer.Core
                     {
                         Networking.ReceiveData(this);
                     }
-                    catch
+                    catch(Exception exc)
                     {
+                        Program.Log(LogType.NetworkingLow, exc.ToString(), true);
                         Disconnect();
                         break;
                     }
