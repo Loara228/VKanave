@@ -22,7 +22,7 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
-            Exception exc = Database.RunCommand($"SELECT `token` FROM `users` WHERE `username`='{username}' and `password_hash`='{password}'", out SQLTable table);
+            Exception exc = Database.RunCommand($"SELECT `token`,`user_id` FROM `users` WHERE `username`='{username}' and `password_hash`='{password}'", out SQLTable table);
             if (exc != null)
                 return;
             if (table.rows.Count > 0)
@@ -31,16 +31,19 @@ namespace VKanave.Networking.NetMessages
                 Program.Log(LogType.Information, tokendb);
                 if (tokendb != null)
                 {
-                    NMAuth msg = new NMAuth() { token = tokendb };
+                    from.Token = tokendb;
+                    long locid = long.Parse(table.rows[0].values[1].ToString());
+                    NMAuth msg = new NMAuth() { token = tokendb, id = locid };
                     msg.username = this.username;
                     from.Send(msg);
                     return;
                 }
             }
-            from.Send(new NMAuth() { token = "" });
+            from.Send(new NMAuth() { token = ""});
         }
 
         public string username, password, token;
+        public long id;
 
     }
 }

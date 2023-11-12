@@ -6,9 +6,24 @@ using System.Threading.Tasks;
 
 namespace VKanave.Networking.NetMessages
 {
-    [Serializable]
     public abstract class NMAction : NetMessage
     {
-        public abstract void Action(Connection from);
+        public virtual void Action(Connection from)
+        {
+        }
+
+        public bool TokenRequired
+        {
+            get => _tokenRequired;
+            set
+            {
+                if (value)
+                    _token = LocalUser.Token;
+                _tokenRequired = value;
+            }
+        }
+
+        public string _token = string.Empty;
+        private bool _tokenRequired;
     }
 }

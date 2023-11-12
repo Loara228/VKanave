@@ -1,5 +1,6 @@
 ﻿using VKanave.DB;
 using VKanave.Networking.NetMessages;
+using VKanave.Networking.NetObjects;
 using VKanaveServer.Core;
 
 namespace VKanaveServer
@@ -16,7 +17,7 @@ namespace VKanaveServer
                     Log(LogType.SQL, exc.Message, true);
                 }
                 Server.InitializeLocal();
-                Log(LogType.System, "Initialized");
+                Log(LogType.Console, "Initialized");
                 Server.Current?.Start();
             }
             catch(Exception exc)
@@ -37,18 +38,16 @@ namespace VKanaveServer
 
         private static ConsoleColor GetColor(LogType log)
         {
-            if (log == LogType.System)
+            if (log == LogType.Console)
                 return ConsoleColor.Gray;
             else if (log == LogType.Information)
-                return ConsoleColor.DarkCyan;
-            else if (log == LogType.Serialization)
+                return ConsoleColor.Cyan;
+            else if (log == LogType.SrlzHight)
                 return ConsoleColor.Green;
-            else if (log == LogType.SerializationLow)
+            else if (log == LogType.SrlzLow)
                 return ConsoleColor.DarkGreen;
             else if (log == LogType.Networking)
                 return ConsoleColor.Yellow;
-            else if (log == LogType.NetworkingLow)
-                return ConsoleColor.DarkYellow;
             else if (log == LogType.SQL)
                 return ConsoleColor.Magenta;
             else if (log == LogType.Connection)

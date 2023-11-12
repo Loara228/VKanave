@@ -3,13 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VKanaveServer;
 using VKanaveServer.Core;
 
 namespace VKanave.Networking.NetMessages
 {
-    [Serializable]
     public abstract class NMAction : NetMessage
     {
-        public abstract void Action(Connection from);
+        public virtual void Action(Connection from)
+        {
+            if (TokenRequired)
+            {
+                if (from.Token != _token)
+                {
+                    from.Disconnect();
+                    Program.Log(LogType.Information, $"received invalid token.");
+                }
+            }
+        }
+
+        public bool TokenRequired
+        {
+            get; set;
+        } = false;
+
+        public string _token = string.Empty;
     }
 }

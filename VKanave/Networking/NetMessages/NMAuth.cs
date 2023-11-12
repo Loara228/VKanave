@@ -29,11 +29,12 @@ namespace VKanave.Networking.NetMessages
         {
             if (LoginPage.Current != null)
             {
-                LoginPage.Current.SignIn(username, token);
+                LoginPage.Current.SignIn(username, token, id);
             }
         }
 
         public string username, password, token;
+        public long id;
 
     }
 }

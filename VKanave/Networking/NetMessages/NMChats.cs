@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VKanave.Models;
+using VKanave.Networking.NetObjects;
+using VKanave.Views;
 
 namespace VKanave.Networking.NetMessages
 {
@@ -10,47 +13,54 @@ namespace VKanave.Networking.NetMessages
     {
         public NMChats()
         {
+            TokenRequired = true;
+        }
 
+        public NMChats(ChatMessage[] chats)
+        {
+            this.Chats = chats;
+            count = Chats.Length;
+            TokenRequired = true;
         }
 
         public override void Action(Connection from)
         {
-
+            base.Action(from);
+            ChatsPage.Chats.Clear();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Chats.ToList().ForEach(x =>
+                {
+                    ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.User),
+                                            new MessageModel(0, x.Content, x.Date, x.Flags)));
+                });
+            });
         }
 
         protected override void OnSerialize()
         {
-            Write();
+            if (count > 0)
+                Chats.ToList().ForEach(Write);
         }
 
-        public int CountOfChats
+        protected override void OnDeserialize()
         {
-            get => _chatCount;
-            set => _chatCount = value;
+            if (count == 0)
+                return;
+            List<ChatMessage> chatsList = new List<ChatMessage>();
+            for (int i = 0; i < count; i++)
+            {
+                chatsList.Add(ReadChatMessage());
+            }
+            Chats = chatsList.ToArray();
         }
 
-        public string[] Users
+        public ChatMessage[] Chats
         {
-            get => _users;
-            set => _users = value;
+            get; set;
         }
 
-        public int[] Dates
-        {
-            get => _dates;
-            set => _dates = value;
-        }
-
-        public int[] Flags
-        {
-            get => _flags;
-            set => _flags = value;
-        }
-
-        private string[] _users;
-        private int[] _dates;
-        private int[] _flags;
-
-        private int _chatCount = 0;
+        public int count;
+        public long localUserId;
     }
 }

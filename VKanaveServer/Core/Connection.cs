@@ -35,7 +35,7 @@ namespace VKanaveServer.Core
                     }
                     catch(Exception exc)
                     {
-                        Program.Log(LogType.NetworkingLow, exc.ToString(), true);
+                        Program.Log(LogType.Networking, exc.ToString(), true);
                         Disconnect();
                         break;
                     }
@@ -43,13 +43,13 @@ namespace VKanaveServer.Core
             }).Start();
         }
 
-        private void Disconnect()
+        public void Disconnect()
         {
             try
             {
                 Client.Close();
             }
-            catch
+            finally
             {
                 Server.Current?.RemoveConnection(this);
             }
@@ -77,6 +77,11 @@ namespace VKanaveServer.Core
         {
             get; set;
         }
+
+        internal string Token
+        {
+            get; set;
+        } = string.Empty;
 
         private static int _connectionIndexCount;
     }

@@ -6,7 +6,40 @@ using System.Threading.Tasks;
 
 namespace VKanave.Networking.NetObjects
 {
-    internal class ChatMessage
+    public class ChatMessage
     {
+        public ChatMessage(ChatUser user, long id, string content, int date, int flags)
+        {
+            this.User = user;
+            this.ID = id;
+            this.Content = content;
+            this.Date = date;
+            this.Flags = flags;
+        }
+
+        public ChatUser User
+        {
+            get; private set;
+        }
+
+        public long ID
+        {
+            get; private set;
+        }
+
+        public string Content
+        {
+            get; private set;
+        } = "";
+
+        public int Date
+        {
+            get; private set;
+        }
+
+        public int Flags
+        {
+            get; private set;
+        }
     }
 }

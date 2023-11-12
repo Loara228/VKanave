@@ -10,7 +10,7 @@ public static class MauiProgram
 	{
 		if (DebugCode == 2)
 		{
-			LocalUser.NewUser("test", "test");
+			LocalUser.NewUser("test", "test", 0);
 		}
 		var builder = MauiApp.CreateBuilder();
 		builder

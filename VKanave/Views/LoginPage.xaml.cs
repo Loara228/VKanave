@@ -47,7 +47,6 @@ public partial class LoginPage : ContentPage
         }
         if (!CheckInputs3())
         {
-            System.Diagnostics.Debug.WriteLine("!!!!!!!");
             Toast.Make("Username contains invalid charachers.", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             return;
         }
@@ -92,7 +91,7 @@ public partial class LoginPage : ContentPage
         return b;
     }
 
-    public void SignIn(string username, string token)
+    public void SignIn(string username, string token, long id)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -107,7 +106,7 @@ public partial class LoginPage : ContentPage
             else
             {
                 // auth successfully :)
-                LocalUser.NewUser(username, token);
+                LocalUser.NewUser(username, token, id);
                 Navigation.PopModalAsync();
             }
         });

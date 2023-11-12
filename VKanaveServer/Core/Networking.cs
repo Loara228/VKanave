@@ -28,14 +28,14 @@ namespace VKanaveServer.Core
             Program.Log(LogType.Networking, $"data received. {data.Length} bytes ({connection.Index})");
             NetMessage msg = NetMessage.Create(data);
             msg.Deserialize();
-            Program.Log(LogType.Serialization, $"{msg} deserialized ({connection.Index})");
+            Program.Log(LogType.SrlzHight, $"{msg} deserialized ({connection.Index})");
             PrcMsg(connection, msg);
         }
 
         internal static void Send(Connection connection, NetMessage msg)
         {
             msg.Serialize();
-            Program.Log(LogType.Serialization, $"{msg} serialized ({connection.Index})");
+            Program.Log(LogType.SrlzHight, $"{msg} serialized ({connection.Index})");
             connection.Stream.Write(msg.Buffer);
             Program.Log(LogType.Networking, $"data sent. {msg.Buffer.Length} bytes ({connection.Index})");
         }

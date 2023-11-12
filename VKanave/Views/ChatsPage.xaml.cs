@@ -56,9 +56,9 @@ public partial class ChatsPage : ContentPage
         Loaded += async (s, e) =>
         {
             await Navigation.PushModalAsync(new ConnectionPage());
-            Chats.Add(new ChatModel(new UserModel("User#1915"), new MessageModel(0, "Message!", DateTime.UtcNow.ToUnixTime())));
-            Chats.Add(new ChatModel(new UserModel("User#1311"), new MessageModel(0, "Hello. Nigger pidoras asd dsa asd d sada sda ", DateTime.UtcNow.ToUnixTime())));
-            Chats.Add(new ChatModel(new UserModel("User#5618"), new MessageModel(0, "ahahha", DateTime.UtcNow.ToUnixTime())));
+            //Chats.Add(new ChatModel(new UserModel("User#1915"), new MessageModel(0, "Message!", DateTime.UtcNow.ToUnixTime())));
+            //Chats.Add(new ChatModel(new UserModel("User#1311"), new MessageModel(0, "Hello. Nigger pidoras asd dsa asd d sada sda ", DateTime.UtcNow.ToUnixTime())));
+            //Chats.Add(new ChatModel(new UserModel("User#5618"), new MessageModel(0, "ahahha", DateTime.UtcNow.ToUnixTime())));
         };
     }
 
@@ -67,7 +67,7 @@ public partial class ChatsPage : ContentPage
         return null;
     }
 
-    public ObservableCollection<ChatModel> Chats
+    public static ObservableCollection<ChatModel> Chats
     {
         get; set;
     } = new ObservableCollection<ChatModel>();

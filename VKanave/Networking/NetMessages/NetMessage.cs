@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VKanave.Networking.NetObjects;
 
 namespace VKanave.Networking.NetMessages
 {
@@ -51,13 +52,13 @@ namespace VKanave.Networking.NetMessages
                     var value = (string)fieldInfo.GetValue(this);
                     Write(value);
                 }
+                else if (fieldInfo.FieldType == typeof(long))
+                {
+                    var value = (long)fieldInfo.GetValue(this);
+                    Write(value);
+                }
             }
             OnSerialize();
-        }
-
-        public void NMType()
-        {
-            ReadString();
         }
 
         public void Deserialize()
@@ -77,6 +78,11 @@ namespace VKanave.Networking.NetMessages
                     var value = (int)ReadInt();
                     field.SetValue(this, value);
                 }
+                else if (field.FieldType == typeof(long))
+                {
+                    var value = (long)ReadLong();
+                    field.SetValue(this, value);
+                }
             }
             OnDeserialize();
         }
@@ -89,6 +95,8 @@ namespace VKanave.Networking.NetMessages
         {
 
         }
+
+        #region Write
 
         protected void Write(string value)
         {
@@ -110,6 +118,34 @@ namespace VKanave.Networking.NetMessages
             _position += bytes.Length;
         }
 
+        protected void Write(long value)
+        {
+            byte size = sizeof(long);
+            if (_position + size > _buffer.Length)
+                Resize(size);
+            byte[] bytes = BitConverter.GetBytes(value);
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                _buffer[_position + i] = bytes[i];
+            }
+            _position += bytes.Length;
+        }
+
+        protected void Write(ChatMessage message)
+        {
+            Write(message.User);
+            Write(message.ID);
+            Write(message.Content);
+            Write(message.Date);
+            Write(message.Flags);
+        }
+
+        protected void Write(ChatUser user)
+        {
+            Write(user.User);
+            Write(user.Username);
+        }
+
         protected void Write(byte[] bytes)
         {
             int size = bytes.Length;
@@ -123,6 +159,10 @@ namespace VKanave.Networking.NetMessages
             }
             _position += bytes.Length;
         }
+
+        #endregion
+
+        #region Write
 
         protected string ReadString()
         {
@@ -149,10 +189,45 @@ namespace VKanave.Networking.NetMessages
             buffer[1] = _buffer[_position + 1];
             buffer[2] = _buffer[_position + 2];
             buffer[3] = _buffer[_position + 3];
-            int value = BitConverter.ToUInt16(buffer);
+            int value = BitConverter.ToInt32(buffer);
             _position += 4;
             return value;
         }
+
+        protected long ReadLong()
+        {
+            byte[] buffer = new byte[8];
+            buffer[0] = _buffer[_position];
+            buffer[1] = _buffer[_position + 1];
+            buffer[2] = _buffer[_position + 2];
+            buffer[3] = _buffer[_position + 3];
+            buffer[4] = _buffer[_position + 4];
+            buffer[5] = _buffer[_position + 5];
+            buffer[6] = _buffer[_position + 6];
+            buffer[7] = _buffer[_position + 7];
+            long value = BitConverter.ToInt64(buffer);
+            _position += 8;
+            return value;
+        }
+
+        protected ChatUser ReadUser()
+        {
+            long id = ReadLong();
+            string username = ReadString();
+            return new ChatUser(id, username);
+        }
+
+        protected ChatMessage ReadChatMessage()
+        {
+            ChatUser user = ReadUser();
+            long id = ReadLong();
+            string content = ReadString();
+            int date = ReadInt();
+            int flags = ReadInt();
+            return new ChatMessage(user, id, content, date, flags);
+        }
+
+        #endregion
 
         protected void Resize(int bytes)
         {

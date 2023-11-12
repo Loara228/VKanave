@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace VKanave.Networking.NetObjects
 {
-    internal class ChatUser
+    public class ChatUser
     {
+        public ChatUser(long userId, string username)
+        {
+            this.User = userId;
+            this.Username = username;
+        }
+
+        public long User
+        {
+            get; private set;
+        }
+
+        public string Username
+        {
+            get; private set;
+        } = "";
     }
 }

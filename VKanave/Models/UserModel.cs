@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace VKanave.Models
 {
-    public record UserModel(string Username);
+    public record UserModel(string Username, long ID);
 }

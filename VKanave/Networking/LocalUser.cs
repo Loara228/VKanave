@@ -8,10 +8,11 @@ namespace VKanave.Networking
 {
     internal static class LocalUser
     {
-        public static void NewUser(string username, string token)
+        public static void NewUser(string username, string token, long id)
         {
             _username = username;
             _token = token;
+            _id = id;
         }
 
         public static string Username
@@ -27,6 +28,12 @@ namespace VKanave.Networking
             get => _token;
         }
 
+        public static long Id
+        {
+            get => _id;
+        }
+
+        private static long _id;
         private static string _username;
         private static string _token;
     }

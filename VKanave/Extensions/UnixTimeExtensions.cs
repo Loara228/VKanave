@@ -8,14 +8,14 @@ namespace VKanave.Extensions
 {
     public static class UnixTimeExtensions
     {
-        /// <param name="dt">to seconds</param>
+        /// <param name="dt">in seconds</param>
         internal static long ToUnixTime(this DateTime dt)
         {
             DateTimeOffset dto = new DateTimeOffset(dt);
             return dto.ToUnixTimeSeconds();
         }
 
-        /// <param name="unixtime">seconds</param>
+        /// <param name="unixtime">in seconds</param>
         internal static DateTime ToDateTime(this long unixtime)
         {
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
