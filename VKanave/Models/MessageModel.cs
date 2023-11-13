@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VKanave.Extensions;
+using VKanave.Networking.NetObjects;
 
 namespace VKanave.Models
 {
-    public record class MessageModel(long ID, string Content, long UnixTime, int Flags = 0)
+    public record class MessageModel(long ID, string Content, long UnixTime, ChatMessageFlags Flags)
     {
         public DateTime DateTime
         {
@@ -25,6 +26,11 @@ namespace VKanave.Models
                     return Content.Substring(0, 25) + "...";
                 return Content;
             }
+        }
+
+        public bool Unread
+        {
+            get => Flags == ChatMessageFlags.UNREAD;
         }
     }
 }

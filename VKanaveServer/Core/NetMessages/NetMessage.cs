@@ -119,7 +119,7 @@ namespace VKanave.Networking.NetMessages
         {
             byte size = sizeof(int);
             if (_position + size > _buffer.Length)
-                Resize(size);
+                Resize(_buffer.Length + size);
             byte[] bytes = BitConverter.GetBytes(value);
             for (int i = 0; i < bytes.Length; i++)
             {
@@ -132,7 +132,7 @@ namespace VKanave.Networking.NetMessages
         {
             byte size = sizeof(long);
             if (_position + size > _buffer.Length)
-                Resize(size);
+                Resize(_buffer.Length + size);
             byte[] bytes = BitConverter.GetBytes(value);
             for (int i = 0; i < bytes.Length; i++)
             {
@@ -161,7 +161,7 @@ namespace VKanave.Networking.NetMessages
             int size = bytes.Length;
             if (_buffer.Length < _buffer.Length + bytes.Length)
             {
-                Resize(size);
+                Resize(bytes.Length);
             }
             for (int i = 0; i < bytes.Length; i++)
             {
@@ -237,25 +237,23 @@ namespace VKanave.Networking.NetMessages
             return new ChatMessage(user, id, content, date, flags);
         }
 
-        protected void Resize(int bytes)
-        {
-            int reqBytes = _buffer.Count() * 2;
-            while (reqBytes < bytes)
-                reqBytes *= 2;
-
-            byte[] newBytes = new byte[reqBytes];
-            _buffer.CopyTo(newBytes, 0);
-            _buffer = newBytes;
-        }
-
         #endregion
+
+        private void Resize(int needBytes)
+        {
+            int size = _buffer.Length;
+            while (_buffer.Length < size + needBytes)
+                Array.Resize(ref _buffer, _buffer.Length * 2);
+        }
 
         public byte[] Buffer
         {
             get => _buffer;
         }
 
-        private byte[] _buffer = new byte[1024];
+        public const int BUFFER_SIZE = 256;
+
+        private byte[] _buffer = new byte[BUFFER_SIZE];
         private int _position;
     }
 }

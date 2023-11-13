@@ -15,11 +15,33 @@ namespace VKanave.Networking
         {
             NetworkStream stream = Connection.Current.Stream;
 
-            byte[] data = new byte[1024];
-            stream.Read(data, 0, data.Length);
+            byte[] data = new byte[NetMessage.BUFFER_SIZE];
+            bool emptyBuffer = true;
+            while (true)
+            {
+                byte[] receivedData = new byte[NetMessage.BUFFER_SIZE];
+                stream.Read(receivedData, 0, receivedData.Length);
 
-            if (data[0] == 0 && data[1] == 0 && data[2] == 0)
+                if (IsBufferEmpty(receivedData))
+                {
+                    break;
+                }
+                else
+                {
+                    if (!emptyBuffer)
+                    {
+                        data = data.Concat(receivedData).ToArray();
+                    }
+                    else
+                        data = receivedData;
+                    emptyBuffer = false;
+                }
+            }
+
+            if (emptyBuffer)
+            {
                 return;
+            }
 
             NetMessage msg = NetMessage.Create(data);
             msg.Deserialize();
@@ -37,6 +59,16 @@ namespace VKanave.Networking
         {
             if (msg is NMAction)
                 (msg as NMAction).Action(from);
+        }
+
+        private static bool IsBufferEmpty(byte[] buffer)
+        {
+            foreach(byte b in buffer)
+            {
+                if (b != 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

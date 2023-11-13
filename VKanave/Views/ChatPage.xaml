@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VKanave.Views.ChatPage"
+             Title="ChatPage"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <StackLayout Margin="0">
+        
+        <!--#region HEADER-->
+
+        <StackLayout BackgroundColor="{StaticResource ElementColor}" Orientation="Horizontal" HeightRequest="70">
+            <ImageButton Source="Back.png"
+                         VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="Start"
+                         Margin="10"
+                         BackgroundColor="Transparent"
+                         WidthRequest="5"
+                         HeightRequest="10"
+                         Clicked="ImageButton_Clicked"/>
+            <Image Source="avatar.png" HeightRequest="50"/>
+            <StackLayout Padding="10">
+                <Label Text="Username"
+                       TextColor="{StaticResource ActiveColor}"
+                       HorizontalOptions="StartAndExpand"
+                       VerticalOptions="CenterAndExpand"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                <Label Text="Last seen"
+                       FontSize="13"
+                       TextColor="Gray"
+                       HorizontalOptions="StartAndExpand"
+                       VerticalOptions="StartAndExpand"/>
+            </StackLayout>
+            <StackLayout.Shadow>
+                <Shadow Brush="Black"
+                Offset="0,10"
+                Radius="20"
+                Opacity="0.7" />
+            </StackLayout.Shadow>
+        </StackLayout>
+        
+        <!--#endregion-->
+        
+        <!--#region Content-->
+        
+        
+        
+        <!--#endregion-->
+
+    </StackLayout>
+</ContentPage>

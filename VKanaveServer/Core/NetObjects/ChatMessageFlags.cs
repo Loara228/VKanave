@@ -9,8 +9,9 @@ namespace VKanave.Networking.NetObjects
     [Flags]
     public enum ChatMessageFlags : int
     {
-        UNREAD,
-        OUTBOX,
-        DELETED
+        NONE = 0,
+        UNREAD = 1,
+        OUTBOX = 2,
+        DELETED = 4,
     }
 }

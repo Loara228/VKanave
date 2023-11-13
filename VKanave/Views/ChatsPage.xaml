@@ -6,6 +6,27 @@
              BackgroundColor="{StaticResource BackgroundColor}">
     <Grid>
         <StackLayout Margin="2">
+            <Label x:Name="label1"
+                   Text="You don't have any messages yet"
+                   TextColor="LightGray"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Margin="50"
+                   IsVisible="False"
+                   x:FieldModifier="Public"/>
+            <Button x:Name="button1"
+                    Text="New message"
+                    WidthRequest="200"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    VerticalOptions="StartAndExpand"
+                    BackgroundColor="{StaticResource ActiveColor}"
+                    TextColor="{StaticResource SecondaryColor}"
+                    FontSize="16"
+                    IsVisible="False"
+                    x:FieldModifier="Public"/>
             <CollectionView x:Name="chatList">
             </CollectionView>
         </StackLayout>

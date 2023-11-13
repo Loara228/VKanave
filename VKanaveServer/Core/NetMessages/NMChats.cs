@@ -24,7 +24,6 @@ namespace VKanave.Networking.NetMessages
             this.Chats = chats;
             count = Chats.Length;
             TokenRequired = true;
-
         }
 
         public override void Action(Connection from)
@@ -41,7 +40,6 @@ namespace VKanave.Networking.NetMessages
                 List<ChatMessage> messages = new List<ChatMessage>();
                 foreach(var row in table.rows)
                 {
-                    Console.WriteLine(row.values.Count);
                     long messageId = long.Parse(row.values[0].ToString());
                     long user1 = long.Parse(row.values[1].ToString());
                     long user2 = long.Parse(row.values[2].ToString());
@@ -59,8 +57,12 @@ namespace VKanave.Networking.NetMessages
                             content,
                             date,
                             flags));
-                    from.Send(new NMChats(messages.ToArray()));
                 }
+                from.Send(new NMChats(messages.ToArray()));
+            }
+            else
+            {
+                from.Send(new NMChats());
             }
         }
 

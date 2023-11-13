@@ -29,11 +29,17 @@ namespace VKanave.Networking.NetMessages
             ChatsPage.Chats.Clear();
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                Chats.ToList().ForEach(x =>
+                if (Chats != null && Chats.Length > 0)
+                    Chats.ToList().ForEach(x =>
+                    {
+                        ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.User),
+                                                new MessageModel(0, x.Content, x.Date, (ChatMessageFlags)x.Flags)));
+                    });
+                else
                 {
-                    ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.User),
-                                            new MessageModel(0, x.Content, x.Date, x.Flags)));
-                });
+                    ChatsPage.Current.label1.IsVisible = true;
+                    ChatsPage.Current.button1.IsVisible = true;
+                }
             });
         }
 

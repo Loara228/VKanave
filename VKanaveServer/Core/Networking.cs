@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;  
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -19,11 +20,42 @@ namespace VKanaveServer.Core
         {
             NetworkStream stream = connection.Stream;
 
-            byte[] data = new byte[1024];
-            stream.Read(data, 0, data.Length);
+            byte[] data = new byte[NetMessage.BUFFER_SIZE];
+            bool emptyBuffer = true;
+            while (true)
+            {
+                //if (!stream)
+                //{
+                //    connection.Disconnect();
+                //    return;
+                //}
 
-            if (data[0] == 0 && data[1] == 0 && data[2] == 0)
+                byte[] receivedData = new byte[NetMessage.BUFFER_SIZE];
+                stream.Read(receivedData, 0, receivedData.Length);
+
+                if (IsBufferEmpty(receivedData))
+                {
+                    break;
+                }
+                else
+                {
+                    if (!emptyBuffer)
+                    {
+                        data = data.Concat(receivedData).ToArray();
+                    }
+                    else
+                        data = receivedData;
+                    emptyBuffer = false;
+                }
+            }
+
+            if (emptyBuffer)
+            {
+                Program.Log(LogType.Networking, $"Empty buffer received. ({connection.Index})");
                 return;
+            }
+
+            Program.Log(LogType.SrlzLow, string.Join(' ', data));
 
             Program.Log(LogType.Networking, $"data received. {data.Length} bytes ({connection.Index})");
             NetMessage msg = NetMessage.Create(data);
@@ -44,6 +76,16 @@ namespace VKanaveServer.Core
         {
             if (msg is NMAction)
                 (msg as NMAction).Action(from);
+        }
+
+        private static bool IsBufferEmpty(byte[] buffer)
+        {
+            foreach (byte b in buffer)
+            {
+                if (b != 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

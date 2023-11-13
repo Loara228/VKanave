@@ -58,7 +58,8 @@ public partial class ConnectionPage : ContentPage
 
     private void button1_Clicked(object sender, EventArgs e)
     {
-        Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
+        if (MauiProgram.DebugCode == 0)
+            Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
         Navigation.PopModalAsync();
     }
 }

@@ -61,6 +61,6 @@ namespace VKanaveServer
         }
 
         public const bool LOCAL = true;
-        public const bool WINDOWS = true;
+        public const bool WINDOWS = false;
     }
 }
