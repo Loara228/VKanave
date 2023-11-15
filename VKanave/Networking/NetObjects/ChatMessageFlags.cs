@@ -12,6 +12,6 @@ namespace VKanave.Networking.NetObjects
         NONE = 0,
         UNREAD = 1,
         OUTBOX = 2,
-        DELETED = 4,
+        DELETED = 4
     }
 }

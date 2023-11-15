@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using VKanave.Extensions;
 using VKanave.Models;
+using VKanave.Networking;
+using VKanave.Networking.NetMessages;
 using VKanave.Networking.NetObjects;
 
 namespace VKanave.Views;
@@ -98,6 +100,10 @@ public partial class ChatsPage : ContentPage
         {
             await Navigation.PushModalAsync(new ConnectionPage());
         };
+    }
+
+    private void ChatsPage_NavigatedFrom(object sender, NavigatedFromEventArgs e)
+    {
     }
 
     public async Task OpenChat(object value)

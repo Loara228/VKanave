@@ -6,6 +6,10 @@
              BackgroundColor="{StaticResource BackgroundColor}">
     <Grid>
         <StackLayout Margin="2">
+            <ActivityIndicator x:Name="activityIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               x:FieldModifier="Public"/>
             <Label x:Name="label1"
                    Text="You don't have any messages yet"
                    TextColor="LightGray"

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VKanave.DB;
 using VKanaveServer;
 using VKanaveServer.Core;
 
@@ -18,6 +19,10 @@ namespace VKanave.Networking.NetMessages
                 {
                     from.Disconnect();
                     Program.Log(LogType.Information, $"received invalid token.");
+                }
+                else
+                {
+                    _ = Database.RunCommand($"UPDATE `users` SET `last_active`= {Database.GetUnixTime()} WHERE `token` = '{_token}'", out var _);
                 }
             }
         }

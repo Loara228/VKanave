@@ -14,7 +14,7 @@
                          HorizontalOptions="Start"
                          Margin="10"
                          BackgroundColor="Transparent"
-                         WidthRequest="5"
+                         WidthRequest="10"
                          HeightRequest="10"
                          Clicked="ImageButton_Clicked"/>
             <Image Source="avatar.png" HeightRequest="50"/>
@@ -24,12 +24,14 @@
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="CenterAndExpand"
                        FontSize="16"
-                       FontAttributes="Bold"/>
+                       FontAttributes="Bold"
+                       x:Name="labelUsername"/>
                 <Label Text="Last seen"
                        FontSize="13"
                        TextColor="Gray"
                        HorizontalOptions="StartAndExpand"
-                       VerticalOptions="StartAndExpand"/>
+                       VerticalOptions="StartAndExpand"
+                       x:Name="labelLastActive"/>
             </StackLayout>
             <StackLayout.Shadow>
                 <Shadow Brush="Black"
@@ -42,8 +44,16 @@
         <!--#endregion-->
         
         <!--#region Content-->
-        
-        
+
+        <CollectionView x:Name="messagesList" VerticalOptions="EndAndExpand" Margin="0">
+        </CollectionView>
+
+        <Editor x:Name="textbox"
+                VerticalOptions="End"
+                BackgroundColor="{StaticResource ElementColor}"
+                TextColor="White"
+                Keyboard="Chat"
+                Margin="0"/>
         
         <!--#endregion-->
 

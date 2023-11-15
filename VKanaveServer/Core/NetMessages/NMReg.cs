@@ -29,7 +29,7 @@ namespace VKanave.Networking.NetMessages
             {
                 long unixTime = Database.GetUnixTime();
                 string token = GenerateToken($"{username}{password}{unixTime}");
-                exc = Database.RunCommand($"INSERT INTO `users` (`username`, `password_hash`, `reg`, `token`) VALUES ('{username}', '{password}', '{unixTime}', '{token}');", out _);
+                exc = Database.RunCommand($"INSERT INTO `users` (`username`, `password_hash`, `reg`, `token`, `last_active`) VALUES ('{username}', '{password}', '{unixTime}', '{token}', {Database.GetUnixTime()});", out _);
                 if (exc != null)
                 {
                     from.Send(new NMReg { code = 0 });

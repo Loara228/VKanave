@@ -9,37 +9,38 @@ using VKanave.Views;
 
 namespace VKanave.Networking.NetMessages
 {
-    public class NMChats : NMAction
+    public class NMLoadMessages : NMAction
     {
-        public NMChats()
+        public NMLoadMessages()
         {
             TokenRequired = true;
         }
 
-        public NMChats(ChatMessage[] chats)
+        public NMLoadMessages(ChatMessage[] chats)
         {
-            this.Chats = chats;
-            count = Chats.Length;
+            this.Messages = chats;
+            count = Messages.Length;
             TokenRequired = true;
         }
 
         public override void Action(Connection from)
         {
-            ChatsPage.Chats.Clear();
+            ChatPage.Current.Messages.Clear();
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                ChatsPage.Current.activityIndicator.IsRunning = false;
-                ChatsPage.Current.activityIndicator.IsVisible = false;
-                if (Chats != null && Chats.Length > 0)
-                    Chats.ToList().ForEach(x =>
+                if (Messages != null && Messages.Length > 0)
+                {
+                    var messages = Messages.ToList();
+                    messages.Reverse();
+                    Messages = messages.ToArray();
+                    Messages.ToList().ForEach(x =>
                     {
-                        ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.User, x.Date),
-                                                new MessageModel(0, x.Content, x.Date, (ChatMessageFlags)x.Flags)));
+                        ChatPage.Current.Messages.Add(new MessageModel(x.ID, x.Content, x.Date, (ChatMessageFlags)x.Flags));
                     });
+                }
                 else
                 {
-                    ChatsPage.Current.label1.IsVisible = true;
-                    ChatsPage.Current.button1.IsVisible = true;
+                    // нету сообщений
                 }
             });
         }
@@ -47,7 +48,7 @@ namespace VKanave.Networking.NetMessages
         protected override void OnSerialize()
         {
             if (count > 0)
-                Chats.ToList().ForEach(Write);
+                Messages.ToList().ForEach(Write);
         }
 
         protected override void OnDeserialize()
@@ -59,15 +60,16 @@ namespace VKanave.Networking.NetMessages
             {
                 chatsList.Add(ReadChatMessage());
             }
-            Chats = chatsList.ToArray();
+            Messages = chatsList.ToArray();
         }
 
-        public ChatMessage[] Chats
+        public ChatMessage[] Messages
         {
             get; set;
         }
 
         public int count;
         public long localUserId;
+        public long userId2;
     }
 }

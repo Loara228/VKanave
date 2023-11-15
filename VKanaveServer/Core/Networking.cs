@@ -2,6 +2,7 @@
 using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -24,21 +25,17 @@ namespace VKanaveServer.Core
             bool emptyBuffer = true;
             while (true)
             {
-                //if (!stream)
-                //{
-                //    connection.Disconnect();
-                //    return;
-                //}
-
                 byte[] receivedData = new byte[NetMessage.BUFFER_SIZE];
                 stream.Read(receivedData, 0, receivedData.Length);
 
                 if (IsBufferEmpty(receivedData))
                 {
+                    CheckConnection(connection);
                     break;
                 }
                 else
                 {
+                    connection.EmptyBuffersCount = 0;
                     if (!emptyBuffer)
                     {
                         data = data.Concat(receivedData).ToArray();
@@ -86,6 +83,13 @@ namespace VKanaveServer.Core
                     return false;
             }
             return true;
+        }
+
+        private static void CheckConnection(Connection connection)
+        {
+            connection.EmptyBuffersCount++;
+            if (connection.EmptyBuffersCount > 10)
+                connection.Disconnect();
         }
     }
 }

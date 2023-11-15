@@ -10,8 +10,9 @@ namespace VKanaveServer.Core.NetMessages
     [Flags]
     public enum ChatMessageFlags : int
     {
-        UNREAD,
-        OUTBOX,
-        DELETED
+        NONE = 0,
+        UNREAD = 1,
+        OUTBOX = 2,
+        DELETED = 4
     }
 }

@@ -5,6 +5,7 @@
              BackgroundColor="{StaticResource PrimaryColor}">
     <Grid>
         <StackLayout Margin="20">
+            
             <!--#region Logo & Title-->
             <StackLayout Orientation="Horizontal">
                 <Image Source="vk_logo.png"
@@ -24,6 +25,7 @@
                 </StackLayout>
             </StackLayout>
             <!--#endregion-->
+            
             <!--#region username textbox-->
             <StackLayout>
                 <Label Style="{StaticResource text}"
@@ -46,6 +48,7 @@
                 </Grid>
             </StackLayout>
             <!--#endregion-->
+            
             <!--#region password textbox-->
             <StackLayout>
                 <Label Style="{StaticResource text}"
@@ -69,6 +72,7 @@
                 </Grid>
             </StackLayout>
             <!--#endregion-->
+            
             <Button Margin="0, 20"
                     CornerRadius="15"
                     Text="Sign in"
@@ -77,6 +81,7 @@
                     x:Name="button1"/>
             <ActivityIndicator x:Name="activityIndicator"
                                IsRunning="False"/>
+            
             <!--#region footer-->
             <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal">
                 <Label TextColor="{StaticResource SecondaryColor}"
@@ -97,6 +102,7 @@
                 </Label>
             </StackLayout>
             <!--#endregion-->
+            
         </StackLayout>
     </Grid>
 </ContentPage>

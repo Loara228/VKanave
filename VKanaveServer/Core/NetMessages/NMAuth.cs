@@ -35,6 +35,7 @@ namespace VKanave.Networking.NetMessages
                     long locid = long.Parse(table.rows[0].values[1].ToString());
                     NMAuth msg = new NMAuth() { token = tokendb, id = locid };
                     msg.username = this.username;
+                    _ = Database.RunCommand($"UPDATE `users` SET `last_active`= {Database.GetUnixTime()} WHERE `user_id` = {locid}", out var _);
                     from.Send(msg);
                     return;
                 }

@@ -73,6 +73,11 @@ namespace VKanaveServer.Core
             get => Client.GetStream();
         }
 
+        internal int EmptyBuffersCount
+        {
+            get; set;
+        } = 0;
+
         internal int Index
         {
             get; set;

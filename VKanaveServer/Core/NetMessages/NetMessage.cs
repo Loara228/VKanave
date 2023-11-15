@@ -154,6 +154,7 @@ namespace VKanave.Networking.NetMessages
         {
             Write(user.User);
             Write(user.Username);
+            Write(user.LastActive);
         }
 
         protected void Write(byte[] bytes)
@@ -224,7 +225,8 @@ namespace VKanave.Networking.NetMessages
         {
             long id = ReadLong();
             string username = ReadString();
-            return new ChatUser(id, username);
+            int lastActive = ReadInt();
+            return new ChatUser(id, username, lastActive);
         }
 
         protected ChatMessage ReadChatMessage()
