@@ -30,7 +30,7 @@ namespace VKanave.Models
 
         public Thickness Margin
         {
-            get => Local ? new Thickness(20, 5, 0, 5) : new Thickness(0, 5, 20, 5);
+            get => Local ? new Thickness(40, 5, 10, 5) : new Thickness(10, 5, 40, 5);
         }
 
         public Color BackgroundColor

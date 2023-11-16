@@ -55,9 +55,7 @@ public partial class ChatPage : ContentPage
     private string GetLastSeenTitle(int unixTime)
     {
         DateTime dt = unixTime.ToDateTime();
-        //if (dt.AddMinutes(5) > DateTime.UtcNow)
-        //    return "Now online";
-        return $"Last seen at " + dt.ToLocalTime().ToString();
+        return $"Last seen at " + dt.ToString();
     }
 
     private void ImageButton_Clicked(object sender, EventArgs e)

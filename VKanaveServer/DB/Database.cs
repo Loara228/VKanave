@@ -35,15 +35,15 @@ namespace VKanave.DB
 
         private static void Close() => _sqlConnection.Close();
 
-        internal static long GetUnixTime()
+        internal static int GetUnixTime()
         {
-            DateTimeOffset dto = new DateTimeOffset(DateTime.UtcNow);
-            return dto.ToUnixTimeSeconds();
+            return (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
-        internal static DateTime UnixTimeToDateTime(long unixtime)
+
+        internal static DateTime UnixTimeToDateTime(int unixtime)
         {
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixtime);
+            dtDateTime = dtDateTime.AddSeconds(unixtime).ToLocalTime();
             return dtDateTime;
         }
 

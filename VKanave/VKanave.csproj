@@ -51,6 +51,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\avatar.png" />
 	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\send.png" />
 	  <None Remove="Resources\Images\vk_logo.png" />
 	</ItemGroup>
 

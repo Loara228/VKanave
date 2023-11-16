@@ -11,14 +11,13 @@ namespace VKanave.Extensions
         /// <param name="dt">in seconds</param>
         internal static int ToUnixTime(this DateTime dt)
         {
-            DateTimeOffset dto = new DateTimeOffset(dt);
-            return (int)dto.ToUnixTimeSeconds();
+            return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
         }
 
         /// <param name="unixtime">in seconds</param>
         internal static DateTime ToDateTime(this int unixtime)
         {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixtime);
             return dtDateTime;
         }

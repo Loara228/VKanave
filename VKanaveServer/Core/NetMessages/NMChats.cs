@@ -28,6 +28,10 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
+            //string query = $"SELECT messages.id,messages.id_from, messages.id_to, messages.date, messages.content, messages.flags, MAX(`date`), users.username, users.last_active " +
+            //    $"FROM `messages`,`users` " +
+            //    $"WHERE `id_from`={localUserId} OR `id_to`={localUserId} GROUP BY CONCAT(LEAST(`id_from`,`id_to`),'-',GREATEST(`id_from`,`id_to`)) " +
+            //    $"limit 10;";
             string query = $"SELECT messages.id,messages.id_from, messages.id_to, messages.date, messages.content, messages.flags, MAX(`date`), users.username, users.last_active " +
                 $"FROM `messages`,`users` " +
                 $"WHERE `id_from`={localUserId} OR `id_to`={localUserId} GROUP BY CONCAT(LEAST(`id_from`,`id_to`),'-',GREATEST(`id_from`,`id_to`)) " +
@@ -51,17 +55,18 @@ namespace VKanave.Networking.NetMessages
                     string content = row.values[4].ToString();
                     int flags = int.Parse(row.values[5].ToString());
                     string username = row.values[7].ToString();
-                    int lastActive = int.Parse(row.values[8].ToString());
+
+                    // userinfo
+                    Database.RunCommand($"SELECT users.username, users.last_active FROM `users` WHERE `user_id`={user2}", out var tb1);
+
 
                     if (user1 == localUserId)
                     {
-                        Database.RunCommand($"SELECT users.username, users.last_active FROM `users` WHERE `user_id`={user2}", out var tb1);
                         chatUser = new ChatUser(user2, tb1.rows[0].values[0].ToString(), int.Parse(tb1.rows[0].values[1].ToString()));
-                        Console.WriteLine(tb1.rows[0].values[0].ToString());
                     }
                     else
                     {
-                        chatUser = new ChatUser(user, username, lastActive);
+                        chatUser = new ChatUser(user, username, int.Parse(tb1.rows[0].values[1].ToString()));
                     }
                     messages.Add(
                         new ChatMessage(

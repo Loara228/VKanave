@@ -9,28 +9,29 @@
         <!--#region HEADER-->
 
         <StackLayout BackgroundColor="{StaticResource ElementColor}" Orientation="Horizontal" HeightRequest="70">
-            <ImageButton Source="Back.png"
-                         VerticalOptions="CenterAndExpand"
-                         HorizontalOptions="Start"
-                         Margin="10"
-                         BackgroundColor="Transparent"
-                         WidthRequest="10"
-                         HeightRequest="10"
-                         Clicked="ImageButton_Clicked"/>
-            <Image Source="avatar.png" HeightRequest="50"/>
+            <Button ImageSource="Back.png"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Start"
+                    Margin="0, 10, 0, 10"
+                    BackgroundColor="Transparent"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource ActiveColor}"
+                    BorderColor="Transparent"
+                    Clicked="ImageButton_Clicked"/>
+            <Image Source="avatar.png" Margin="0, 10, 0, 10"/>
             <StackLayout Padding="10">
                 <Label Text="Username"
                        TextColor="{StaticResource ActiveColor}"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="CenterAndExpand"
-                       FontSize="16"
+                       FontSize="18"
                        FontAttributes="Bold"
                        x:Name="labelUsername"/>
                 <Label Text="Last seen"
-                       FontSize="13"
+                       FontSize="12"
                        TextColor="Gray"
                        HorizontalOptions="StartAndExpand"
-                       VerticalOptions="StartAndExpand"
+                       VerticalOptions="End"
                        x:Name="labelLastActive"/>
             </StackLayout>
             <StackLayout.Shadow>
@@ -48,13 +49,22 @@
         <CollectionView x:Name="messagesList" VerticalOptions="EndAndExpand" Margin="0">
         </CollectionView>
 
-        <Editor x:Name="textbox"
-                VerticalOptions="End"
-                BackgroundColor="{StaticResource ElementColor}"
-                TextColor="White"
-                Keyboard="Chat"
-                Margin="0"/>
-        
+        <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ElementColor}">
+            <Editor x:Name="textbox"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="{StaticResource ElementColor}"
+                    TextColor="White"
+                    Keyboard="Chat"
+                    Margin="0"
+                    HeightRequest="60"/>
+            <ImageButton Source="send.png"
+                         HorizontalOptions="End"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         BackgroundColor="Transparent"
+                         BorderColor="Transparent"/>
+        </StackLayout>
+
         <!--#endregion-->
 
     </StackLayout>
