@@ -30,6 +30,7 @@ namespace VKanaveServer.Core
 
                 if (IsBufferEmpty(receivedData))
                 {
+                    data = data.Concat(receivedData).ToArray();
                     CheckConnection(connection);
                     break;
                 }

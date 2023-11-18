@@ -66,6 +66,7 @@ namespace VKanave.Networking.NetMessages
                 }
             }
             OnSerialize();
+            Write(new byte[BUFFER_SIZE]);
         }
 
         public void Deserialize()
@@ -118,8 +119,7 @@ namespace VKanave.Networking.NetMessages
         protected void Write(int value)
         {
             byte size = sizeof(int);
-            if (_position + size > _buffer.Length)
-                Resize(_buffer.Length + size);
+            Resize(size);
             byte[] bytes = BitConverter.GetBytes(value);
             for (int i = 0; i < bytes.Length; i++)
             {
@@ -131,8 +131,7 @@ namespace VKanave.Networking.NetMessages
         protected void Write(long value)
         {
             byte size = sizeof(long);
-            if (_position + size > _buffer.Length)
-                Resize(_buffer.Length + size);
+            Resize(size);
             byte[] bytes = BitConverter.GetBytes(value);
             for (int i = 0; i < bytes.Length; i++)
             {
@@ -160,10 +159,7 @@ namespace VKanave.Networking.NetMessages
         protected void Write(byte[] bytes)
         {
             int size = bytes.Length;
-            if (_buffer.Length < _buffer.Length + bytes.Length)
-            {
-                Resize(bytes.Length);
-            }
+            Resize(size);
             for (int i = 0; i < bytes.Length; i++)
             {
                 _buffer[_position + i] = bytes[i];
@@ -243,9 +239,11 @@ namespace VKanave.Networking.NetMessages
 
         private void Resize(int needBytes)
         {
-            int size = _buffer.Length;
-            while (_buffer.Length < size + needBytes)
-                Array.Resize(ref _buffer, _buffer.Length * 2);
+            //int size = _buffer.Length;
+            //while (_buffer.Length < size + needBytes)
+            //    Array.Resize(ref _buffer, _buffer.Length * 2);
+            while (_position + needBytes > _buffer.Length)
+                Array.Resize(ref _buffer, _buffer.Length + BUFFER_SIZE);
         }
 
         public byte[] Buffer
@@ -253,7 +251,7 @@ namespace VKanave.Networking.NetMessages
             get => _buffer;
         }
 
-        public const int BUFFER_SIZE = 256;
+        public const int BUFFER_SIZE = 64;
 
         private byte[] _buffer = new byte[BUFFER_SIZE];
         private int _position;

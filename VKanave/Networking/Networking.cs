@@ -24,6 +24,7 @@ namespace VKanave.Networking
 
                 if (IsBufferEmpty(receivedData))
                 {
+                    data = data.Concat(receivedData).ToArray();
                     break;
                 }
                 else
