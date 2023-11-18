@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using VKanave.Networking.NetMessages;
+using VKanave.Networking.NetObjects;
 
 namespace VKanaveServer.Core
 {
@@ -73,6 +74,11 @@ namespace VKanaveServer.Core
             get => Client.GetStream();
         }
 
+        internal ChatUser User
+        {
+            get; set;
+        }
+
         internal int EmptyBuffersCount
         {
             get; set;
@@ -89,5 +95,6 @@ namespace VKanaveServer.Core
         } = string.Empty;
 
         private static int _connectionIndexCount;
+        public readonly object block = new object();
     }
 }

@@ -45,12 +45,26 @@ namespace VKanave.Models
 
         public Color DateTimeColor
         {
-            get => Local ? Color.FromArgb("#6173AB") : Colors.Gray;
+            get => Local ? Color.FromArgb("#C5DFFC") : Colors.Gray;
         }
 
         public bool Unread
         {
             get => Flags.HasFlag(ChatMessageFlags.UNREAD);
+        }
+
+        public string UnreadText
+        {
+            get
+            {
+                if (Flags.HasFlag(ChatMessageFlags.UNREAD))
+                {
+                    if (Flags.HasFlag(ChatMessageFlags.OUTBOX))
+                        return "Unread";
+                    return "New";
+                }
+                return "";
+            }
         }
 
         public bool Local

@@ -25,12 +25,19 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
-            string query = 
-                $"SELECT * FROM `messages` WHERE (`id_from` = {localUserId} or `id_to` = {localUserId}) and (`id_from` = {userId2} or `id_to` = {userId2}) order by `id` DESC limit 10;";
+            string query =
+                $"SELECT * FROM `messages` WHERE (`id_from` = {localUserId} or `id_to` = {localUserId}) and (`id_from` = {userId2} or `id_to` = {userId2}) order by `id` DESC limit 30;";
 
             base.Action(from);
 
             Exception exc = Database.RunCommand(query, out var table);
+            if (exc == null)
+            {
+                string query2 =
+                    $"update `messages` set `flags` = `flags` - 64 WHERE ((`id_from` = {localUserId} or `id_to` = {localUserId}) and (`id_from` = {userId2} or `id_to` = {userId2}) and `flags` > 63 and `id_from` = {userId2}) order by `id` DESC limit 30;";
+
+                Database.RunCommand(query2, out var _);
+            }
             if (exc == null)
             {
                 List<ChatMessage> messages = new List<ChatMessage>();

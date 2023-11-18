@@ -31,7 +31,7 @@
                     FontSize="16"
                     IsVisible="False"
                     x:FieldModifier="Public"/>
-            <CollectionView x:Name="chatList">
+            <CollectionView x:Name="chatList" VerticalOptions="StartAndExpand">
             </CollectionView>
         </StackLayout>
     </Grid>

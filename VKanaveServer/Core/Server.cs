@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -54,6 +55,21 @@ namespace VKanaveServer.Core
             lock(_block)
             {
                 Connections.Remove(connection);
+            }
+        }
+
+        public Connection? GetConnectionFromUserId(long userId)
+        {
+            lock (_block)
+            {
+                foreach (Connection c in Connections)
+                {
+                    if (c.User.User == userId)
+                    {
+                        return c;
+                    }
+                }
+                return null;
             }
         }
 

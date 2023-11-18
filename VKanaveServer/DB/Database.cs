@@ -49,33 +49,36 @@ namespace VKanave.DB
 
         internal static Exception RunCommand(string commandStr, out SQLTable table)
         {
-            Program.Log(LogType.SQL, commandStr);
-            Exception exc;
-            table = new SQLTable();
-            try
+            lock (_block)
             {
-                MySqlCommand commandSql = new MySqlCommand(commandStr, _sqlConnection);
-                if (Open(out exc))
+                Program.Log(LogType.SQL, commandStr);
+                Exception exc;
+                table = new SQLTable();
+                try
                 {
-                    table.ExecuteAndRead(commandSql);
-                    Close();
-                }
-                else
-                {
-                    if (exc != null)
+                    MySqlCommand commandSql = new MySqlCommand(commandStr, _sqlConnection);
+                    if (Open(out exc))
                     {
+                        table.ExecuteAndRead(commandSql);
                         Close();
-                        Program.Log(LogType.SQL, exc.Message, true);
                     }
+                    else
+                    {
+                        if (exc != null)
+                        {
+                            Close();
+                            Program.Log(LogType.SQL, exc.Message, true);
+                        }
+                    }
+                    return exc;
                 }
-                return exc;
-            }
-            catch (Exception exception)
-            {
-                if (exception != null)
-                    Program.Log(LogType.SQL, exception.Message, true);
-                Close();
-                return exception;
+                catch (Exception exception)
+                {
+                    if (exception != null)
+                        Program.Log(LogType.SQL, exception.Message, true);
+                    Close();
+                    return exception;
+                }
             }
         }
 
@@ -95,6 +98,7 @@ namespace VKanave.DB
         }
 
         private static MySqlConnection _sqlConnection;
+        private static readonly object _block = new object();
 
     }
 }

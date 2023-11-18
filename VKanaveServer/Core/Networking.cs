@@ -65,7 +65,8 @@ namespace VKanaveServer.Core
         {
             msg.Serialize();
             Program.Log(LogType.SrlzHight, $"{msg} serialized ({connection.Index})");
-            connection.Stream.Write(msg.Buffer);
+            lock (connection.block)
+                connection.Stream.Write(msg.Buffer);
             Program.Log(LogType.Networking, $"data sent. {msg.Buffer.Length} bytes ({connection.Index})");
         }
 
@@ -88,7 +89,7 @@ namespace VKanaveServer.Core
         private static void CheckConnection(Connection connection)
         {
             connection.EmptyBuffersCount++;
-            if (connection.EmptyBuffersCount > 10)
+            if (connection.EmptyBuffersCount > 20)
                 connection.Disconnect();
         }
     }

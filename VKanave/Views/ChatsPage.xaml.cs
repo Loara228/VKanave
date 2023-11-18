@@ -102,19 +102,10 @@ public partial class ChatsPage : ContentPage
         };
     }
 
-    private void ChatsPage_NavigatedFrom(object sender, NavigatedFromEventArgs e)
-    {
-    }
-
     public async Task OpenChat(object value)
     {
         ChatModel chat = (ChatModel)value;
         await Navigation.PushModalAsync(new ChatPage(chat));
-    }
-
-    public object LoadChatTemplate()
-    {
-        return null;
     }
 
     public static ChatsPage Current

@@ -39,7 +39,7 @@ namespace VKanave.Networking.NetObjects
 
         public int Flags
         {
-            get; private set;
+            get; set;
         }
     }
 }

@@ -28,53 +28,21 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
-            //string query = $"SELECT messages.id,messages.id_from, messages.id_to, messages.date, messages.content, messages.flags, MAX(`date`), users.username, users.last_active " +
-            //    $"FROM `messages`,`users` " +
-            //    $"WHERE `id_from`={localUserId} OR `id_to`={localUserId} GROUP BY CONCAT(LEAST(`id_from`,`id_to`),'-',GREATEST(`id_from`,`id_to`)) " +
-            //    $"limit 10;";
-            string query = $"SELECT messages.id,messages.id_from, messages.id_to, messages.date, messages.content, messages.flags, MAX(`date`), users.username, users.last_active " +
+            string query = $"SELECT messages.id_from, messages.id_to, MAX(`date`) " +
                 $"FROM `messages`,`users` " +
                 $"WHERE `id_from`={localUserId} OR `id_to`={localUserId} GROUP BY CONCAT(LEAST(`id_from`,`id_to`),'-',GREATEST(`id_from`,`id_to`)) " +
                 $"limit 10;";
-
-
-
             base.Action(from);
             Exception exc = Database.RunCommand(query, out var table);
             if (exc == null)
             {
-                ChatUser chatUser = null;
                 List<ChatMessage> messages = new List<ChatMessage>();
                 foreach (var row in table.rows)
                 {
-                    long messageId = long.Parse(row.values[0].ToString());
-                    long user1 = long.Parse(row.values[1].ToString());
-                    long user2 = long.Parse(row.values[2].ToString());
-                    long user = user1 != localUserId ? user1 : user2;
-                    int date = int.Parse(row.values[3].ToString());
-                    string content = row.values[4].ToString();
-                    int flags = int.Parse(row.values[5].ToString());
-                    string username = row.values[7].ToString();
-
-                    // userinfo
-                    Database.RunCommand($"SELECT users.username, users.last_active FROM `users` WHERE `user_id`={user2}", out var tb1);
-
-
-                    if (user1 == localUserId)
-                    {
-                        chatUser = new ChatUser(user2, tb1.rows[0].values[0].ToString(), int.Parse(tb1.rows[0].values[1].ToString()));
-                    }
-                    else
-                    {
-                        chatUser = new ChatUser(user, username, int.Parse(tb1.rows[0].values[1].ToString()));
-                    }
-                    messages.Add(
-                        new ChatMessage(
-                                chatUser,
-                            messageId,
-                            content,
-                            date,
-                            flags));
+                    long id_from = long.Parse(row.values[0].ToString());
+                    long id_to = long.Parse(row.values[1].ToString());
+                    int date = int.Parse(row.values[2].ToString());
+                    messages.Add(LoadLastMessage(id_from, id_to, date));
                 }
                 from.Send(new NMChats(messages.ToArray()));
             }
@@ -100,6 +68,34 @@ namespace VKanave.Networking.NetMessages
                 chatsList.Add(ReadChatMessage());
             }
             Chats = chatsList.ToArray();
+        }
+
+        private ChatMessage LoadLastMessage(long user_from, long user_to, int max_date)
+        {
+            long secondUser = user_from != localUserId ? user_from : user_to;
+            string queryJoin = user_from != localUserId ? $"join users on users.user_id = messages.id_from " : $"join users on users.user_id = messages.id_to ";
+            string query = 
+                $"select id, date, content, flags, users.user_id, users.username, users.last_active " +
+                $"from messages " +
+                queryJoin +
+                $"where ((id_to = {localUserId} and id_from = {secondUser}) or (id_to = {secondUser} and id_from = {localUserId})) and `date` = {max_date}";
+            Database.RunCommand(query, out SQLTable table);
+
+            long messageId = long.Parse(table.rows[0].values[0].ToString());
+            int messageDate = int.Parse(table.rows[0].values[1].ToString());
+            string messageContent = table.rows[0].values[2].ToString();
+            int messageFlags = int.Parse(table.rows[0].values[3].ToString());
+
+            long userId = long.Parse(table.rows[0].values[4].ToString());
+            string userUsername = table.rows[0].values[5].ToString();
+            int userLastActive = int.Parse(table.rows[0].values[6].ToString());
+
+            return new ChatMessage(
+                new ChatUser(secondUser, userUsername, userLastActive),
+                messageId,
+                messageContent,
+                messageDate,
+                messageFlags);
         }
 
         public ChatMessage[] Chats

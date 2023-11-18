@@ -17,8 +17,8 @@ namespace VKanave.Networking.NetMessages
             {
                 if (from.Token != _token)
                 {
-                    from.Disconnect();
                     Program.Log(LogType.Information, $"received invalid token.");
+                    from.Disconnect();
                 }
                 else
                 {

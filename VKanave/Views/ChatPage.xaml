@@ -49,8 +49,8 @@
         <CollectionView x:Name="messagesList" VerticalOptions="EndAndExpand" Margin="0">
         </CollectionView>
 
-        <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ElementColor}">
-            <Editor x:Name="textbox"
+        <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource ElementColor}" MaximumHeightRequest="100">
+            <Editor x:Name="richTextbox"
                     HorizontalOptions="FillAndExpand"
                     BackgroundColor="{StaticResource ElementColor}"
                     TextColor="White"
@@ -61,8 +61,11 @@
                          HorizontalOptions="End"
                          WidthRequest="30"
                          HeightRequest="30"
+                         Padding="5"
+                         Margin="10, 0, 10, 0"
                          BackgroundColor="Transparent"
-                         BorderColor="Transparent"/>
+                         BorderColor="Transparent"
+                         Clicked="SendChatMessage"/>
         </StackLayout>
 
         <!--#endregion-->
