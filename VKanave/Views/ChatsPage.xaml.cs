@@ -32,13 +32,13 @@ public partial class ChatsPage : ContentPage
 
              unread.WidthRequest = 16;
              unread.HeightRequest = 16;
-             unread.Color = Color.FromArgb("#e86d6d");
+             unread.Color = Color.FromArgb("#879EEC");
              unread.VerticalOptions = LayoutOptions.StartAndExpand;
              unread.CornerRadius = 16;
-             unread.SetBinding(BoxView.IsVisibleProperty, new Binding("LastMessage.Unread"));
+             unread.SetBinding(BoxView.IsVisibleProperty, new Binding("LastMessage.NewMessage"));
 
              unreadLabel.FontSize = 10;
-             unreadLabel.TextColor = Color.FromArgb("#e86d6d");
+             unreadLabel.TextColor = Color.FromArgb("#879EEC");
              unreadLabel.VerticalOptions = LayoutOptions.EndAndExpand;
              unreadLabel.Text = "unread";
              unreadLabel.SetBinding(BoxView.IsVisibleProperty, new Binding("LastMessage.Unread"));

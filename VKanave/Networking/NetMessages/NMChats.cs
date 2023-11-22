@@ -25,23 +25,25 @@ namespace VKanave.Networking.NetMessages
 
         public override void Action(Connection from)
         {
-            ChatsPage.Chats.Clear();
-            MainThread.BeginInvokeOnMainThread(() =>
+            lock(_block)
             {
-                ChatsPage.Current.activityIndicator.IsRunning = false;
-                ChatsPage.Current.activityIndicator.IsVisible = false;
-                if (Chats != null && Chats.Length > 0)
-                    Chats.ToList().ForEach(x =>
-                    {
-                        ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.User, x.Date),
-                                                new MessageModel(0, x.Content, x.Date, (ChatMessageFlags)x.Flags)));
-                    });
-                else
+                ChatsPage.Chats.Clear();
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    ChatsPage.Current.label1.IsVisible = true;
-                    ChatsPage.Current.button1.IsVisible = true;
-                }
-            });
+                    ChatsPage.Current.activityIndicator.IsRunning = false;
+                    ChatsPage.Current.activityIndicator.IsVisible = false;
+                    if (Chats != null && Chats.Length > 0)
+                        Chats.ToList().ForEach(x =>
+                        {
+                            ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.ID, x.Date),
+                                                    new MessageModel(0, x.Content, x.Date, (ChatMessageFlags)x.Flags)));
+                        });
+                    else
+                    {
+                        // no messages
+                    }
+                });
+            }
         }
 
         protected override void OnSerialize()
@@ -66,6 +68,8 @@ namespace VKanave.Networking.NetMessages
         {
             get; set;
         }
+
+        private static readonly object  _block = new object();
 
         public int count;
         public long localUserId;

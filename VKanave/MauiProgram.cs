@@ -35,4 +35,6 @@ public static class MauiProgram
 	/// <para>2 - skip auth</para>
     /// </summary>
     public const int DebugCode = 0;
+	public const bool LOCAL = false;
+	public const string IP_ADDRESS = "X";
 }

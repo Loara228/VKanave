@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using VKanave.Networking.NetObjects;
 
 namespace VKanave.Models
 {
-    public record class MessageModel(long ID, string Content, int UnixTime, ChatMessageFlags Flags)
+    public record class MessageModel(long ID, string Content, int UnixTime, ChatMessageFlags Flags) : INotifyPropertyChanged
     {
         public DateTime DateTime
         {
@@ -50,13 +51,32 @@ namespace VKanave.Models
 
         public bool Unread
         {
-            get => Flags.HasFlag(ChatMessageFlags.UNREAD);
+            get
+            {
+                if (_unread == null)
+                    return Flags.HasFlag(ChatMessageFlags.UNREAD);
+                return (bool)_unread;
+            }
+            set
+            {
+                _unread = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Unread"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UnreadText"));
+                
+            }
+        }
+
+        public bool NewMessage
+        {
+            get => Flags.HasFlag(ChatMessageFlags.UNREAD) && !Flags.HasFlag(ChatMessageFlags.OUTBOX);
         }
 
         public string UnreadText
         {
             get
             {
+                if (_unread != null && _unread == false)
+                    return "";
                 if (Flags.HasFlag(ChatMessageFlags.UNREAD))
                 {
                     if (Flags.HasFlag(ChatMessageFlags.OUTBOX))
@@ -71,5 +91,9 @@ namespace VKanave.Models
         {
             get => Flags.HasFlag(ChatMessageFlags.OUTBOX);
         }
+
+        private bool? _unread = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

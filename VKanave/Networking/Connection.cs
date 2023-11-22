@@ -16,12 +16,17 @@ namespace VKanave.Networking
             _port = port;
         }
 
-        internal static void Initialize(string hostname, uint port)
+        internal static void Initialize()
         {
-            Current = new Connection(hostname, port);
+            if (MauiProgram.LOCAL)
+            {
+                InitializeLocal();
+                return;
+            }
+            Current = new Connection(MauiProgram.IP_ADDRESS, 42069);
         }
 
-        internal static void InitializeLocal()
+        private static void InitializeLocal()
         {
 #if WINDOWS
             Current = new Connection("127.0.0.1", 228);
@@ -40,9 +45,16 @@ namespace VKanave.Networking
                 result = true;
                 new Thread(() =>
                 {
-                    while (true)
+                    try
                     {
-                        Networking.ReceiveData();
+                        while (true)
+                        {
+                            Networking.ReceiveData();
+                        }
+                    }
+                    catch
+                    {
+                        Application.Current.Quit();
                     }
                 }).Start();
             }

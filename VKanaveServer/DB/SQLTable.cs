@@ -22,6 +22,8 @@ namespace VKanave.DB
 
             MySqlDataReader reader = commandSql.ExecuteReader();
 
+            LastInsertedId = commandSql.LastInsertedId;
+
             if (!reader.HasRows)
             {
                 reader.Close();
@@ -59,6 +61,7 @@ namespace VKanave.DB
             return result;
         }
 
+        public long LastInsertedId;
         public List<SQLColumnInfo> columns;
         public List<SQLRow> rows;
     }

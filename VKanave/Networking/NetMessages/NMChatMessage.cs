@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VKanave.Models;
+using VKanave.Networking.NetMessages.NMCMFlags;
 using VKanave.Networking.NetObjects;
 using VKanave.Views;
 
@@ -19,17 +20,25 @@ namespace VKanave.Networking.NetMessages
         public override void Action(Connection from)
         {
             base.Action(from);
-            if (ChatPage.Current != null)
+            if (ChatPage.Current != null && ChatPage.Current.User != null)
             {
                 if (ChatPage.Current.User.ID == id_from || ChatPage.Current.User.ID == id_to)
                 {
-                    ChatPage.Current.Messages.Add(new MessageModel(0, ChatMessage.Content, ChatMessage.Date, (ChatMessageFlags)ChatMessage.Flags));
+                    var flags = (ChatMessageFlags)ChatMessage.Flags;
+                    if (ChatPage.Current.User.ID == id_from)
+                    {
+                        flags = (ChatMessageFlags)ChatMessage.Flags;
+                        flags &= ~ChatMessageFlags.UNREAD;
+                    }
+                    ChatPage.Current.Messages.Add(new MessageModel(ChatMessage.ID, ChatMessage.Content, ChatMessage.Date, flags));
+                    if (!((ChatMessageFlags)ChatMessage.Flags).HasFlag(ChatMessageFlags.OUTBOX))
+                        Networking.Send(new NMRead() { messageId = ChatMessage.ID, chatId = ChatPage.Current.User.ID, userId2 = LocalUser.Id });
                 }
             }
             else
             {
+                Networking.Send(new NMChats() { localUserId = LocalUser.Id });
             }
-            Networking.Send(new NMChats() { localUserId = LocalUser.Id });
         }
 
         protected override void OnSerialize()

@@ -10,12 +10,12 @@ namespace VKanave.Networking.NetObjects
     {
         public ChatUser(long userId, string username, int lastActive)
         {
-            this.User = userId;
+            this.ID = userId;
             this.Username = username;
             this.LastActive = lastActive;
         }
 
-        public long User
+        public long ID
         {
             get; private set;
         }

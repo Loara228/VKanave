@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VKanave.DB;
 using VKanave.Networking.NetObjects;
+using VKanaveServer;
 using VKanaveServer.Core;
 
 namespace VKanave.Networking.NetMessages
@@ -19,25 +20,22 @@ namespace VKanave.Networking.NetMessages
         public override void Action(Connection from)
         {
             base.Action(from);
-            Exception exc = Database.RunCommand($"INSERT INTO `messages` (`id_from`, `id_to`, `date`, `content`, `flags`) VALUES ('{id_from}', '{id_to}', '{Database.GetUnixTime()}', '{ChatMessage.Content}', '64');", out var tb1);
-            bool read = Server.Current?.GetConnectionFromUserId(id_to) != null;
-            if (read)
-                this.ChatMessage.Flags = (int)ChatMessageFlags.OUTBOX;
-            else
-                this.ChatMessage.Flags = (int)(ChatMessageFlags.OUTBOX | ChatMessageFlags.UNREAD);
+            Database.RunCommand($"INSERT INTO `messages` (`id_from`, `id_to`, `date`, `content`, `flags`) VALUES ('{id_from}', '{id_to}', '{Database.GetUnixTime()}', '{ChatMessage.Content}', '{(int)ChatMessageFlags.UNREAD}');", out var tb1);
+            this.ChatMessage.ID = tb1.LastInsertedId;
+
+            Program.Log(LogType.Console, $"Chat message from {id_from} to {id_to}. ID: {this.ChatMessage.ID}");
+
+            this.ChatMessage.Flags = (int)(ChatMessageFlags.OUTBOX | ChatMessageFlags.UNREAD);
             from.Send(new NMChatMessage()
             {
                 ChatMessage = this.ChatMessage,
                 id_to = this.id_to,
                 id_from = this.id_from
             });
-            if (read)
-                this.ChatMessage.Flags = (int)(ChatMessageFlags.UNREAD);
-            else
-                this.ChatMessage.Flags = 0;
             Connection? connectionTo = Server.Current?.GetConnectionFromUserId(id_to);
             if (connectionTo != null)
             {
+                this.ChatMessage.Flags = (int)(ChatMessageFlags.UNREAD);
                 connectionTo.Send(new NMChatMessage()
                 {
                     ChatMessage = this.ChatMessage,

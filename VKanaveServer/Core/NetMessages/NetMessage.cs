@@ -151,7 +151,7 @@ namespace VKanave.Networking.NetMessages
 
         protected void Write(ChatUser user)
         {
-            Write(user.User);
+            Write(user.ID);
             Write(user.Username);
             Write(user.LastActive);
         }
@@ -239,9 +239,6 @@ namespace VKanave.Networking.NetMessages
 
         private void Resize(int needBytes)
         {
-            //int size = _buffer.Length;
-            //while (_buffer.Length < size + needBytes)
-            //    Array.Resize(ref _buffer, _buffer.Length * 2);
             while (_position + needBytes > _buffer.Length)
                 Array.Resize(ref _buffer, _buffer.Length + BUFFER_SIZE);
         }

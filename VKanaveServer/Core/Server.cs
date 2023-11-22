@@ -11,29 +11,40 @@ namespace VKanaveServer.Core
 {
     internal class Server
     {
-        private Server(IPAddress adress, uint port)
+        private Server(IPAddress address, uint port)
         {
             Connections = new List<Connection>();
             _listner = new TcpListener(IPAddress.Any, (int)port);
-            _address = adress;
+            _address = address;
             _port = port;
         }
 
-        internal static void Initialize(IPAddress adress, uint port)
+        internal static void Initialize(IPAddress address = null, uint? port = null)
         {
-            Current = new Server(adress, port);
+            if (Program.LOCAL)
+            {
+                InitializeLocal();
+                Program.Log(LogType.Networking, "Initialized");
+                return;
+            }
+
+            if (address == null)
+                throw new ArgumentException(nameof(address));
+            if (port == null)
+                throw new ArgumentException(nameof(port));
+
+            Current = new Server(address, (uint)port);
             Program.Log(LogType.Networking, "Initialized");
         }
 
-        internal static void InitializeLocal()
+        private static void InitializeLocal()
         {
-            Current = new Server(IPAddress.Parse(Program.LocalIPAddress), 228);
-            Program.Log(LogType.Networking, "Initialized");
+            Current = new Server(IPAddress.Parse(Program.IP), 228);
         }
 
         internal void Start()
         {
-            Program.Log(LogType.Networking, "Running");
+            Program.Log(LogType.Networking, $"Server starts");
             while (true)
             {
                 _listner.Start();
@@ -44,7 +55,7 @@ namespace VKanaveServer.Core
         private void AcceptConnection()
         {
             Connection connection = Connection.CreateConnection(_listner.AcceptTcpClient());
-            lock(_block)
+            lock (_block)
             {
                 Connections.Add(connection);
             }
@@ -52,7 +63,7 @@ namespace VKanaveServer.Core
 
         public void RemoveConnection(Connection connection)
         {
-            lock(_block)
+            lock (_block)
             {
                 Connections.Remove(connection);
             }
@@ -64,7 +75,7 @@ namespace VKanaveServer.Core
             {
                 foreach (Connection c in Connections)
                 {
-                    if (c.User.User == userId)
+                    if (c.User.ID == userId)
                     {
                         return c;
                     }

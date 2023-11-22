@@ -76,7 +76,22 @@ namespace VKanaveServer.Core
 
         internal ChatUser User
         {
-            get; set;
+            get => _user;
+            set
+            {
+                _user = value;
+                Program.Log(LogType.Console, $"User obj created. id: {_user.ID}, username: {_user.Username}");
+            }
+        }
+
+        internal string UserIdFriendly
+        {
+            get
+            {
+                if (User == null)
+                    return "UNKNOWN";
+                return User.ID.ToString();
+            }
         }
 
         internal int EmptyBuffersCount
@@ -93,6 +108,8 @@ namespace VKanaveServer.Core
         {
             get; set;
         } = string.Empty;
+
+        private ChatUser _user = null;
 
         private static int _connectionIndexCount;
         public readonly object block = new object();

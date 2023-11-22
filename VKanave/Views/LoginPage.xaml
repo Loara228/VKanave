@@ -2,15 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VKanave.Views.LoginPage"
-             BackgroundColor="{StaticResource PrimaryColor}">
+             BackgroundColor="{StaticResource BackgroundColor}">
     <Grid>
         <StackLayout Margin="20">
             
             <!--#region Logo & Title-->
+            
             <StackLayout Orientation="Horizontal">
                 <Image Source="vk_logo.png"
                        HorizontalOptions="StartAndExpand"
-                       WidthRequest="150"/>
+                       WidthRequest="100"/>
                 <StackLayout Margin="0, 45">
                     <Label Style="{StaticResource text}"
                            HorizontalOptions="EndAndExpand"
@@ -24,59 +25,65 @@
                            Text="VKanave"/>
                 </StackLayout>
             </StackLayout>
+            
             <!--#endregion-->
             
             <!--#region username textbox-->
+            
             <StackLayout>
                 <Label Style="{StaticResource text}"
                        FontSize="16"
                        Text="Username"/>
                 <Grid>
                     <Frame x:Name="frameUsername"
-                           BackgroundColor="White"
+                           BackgroundColor="{StaticResource ElementColor}"
                            BorderColor="Transparent"
                            CornerRadius="15"
                            HeightRequest="50"
                            Padding="5">
                         <Entry x:Name="textboxUsername"
-                               BackgroundColor="White"
-                               TextColor="Black"
+                               BackgroundColor="{StaticResource ElementColor}"
+                               TextColor="White"
                                PlaceholderColor="Gray"
                                Placeholder="Enter username"
                                Margin="5,0"/>
                     </Frame>
                 </Grid>
             </StackLayout>
+            
             <!--#endregion-->
             
             <!--#region password textbox-->
+            
             <StackLayout>
                 <Label Style="{StaticResource text}"
                    FontSize="16"
                    Text="Password"/>
                 <Grid>
                     <Frame x:Name="framePassword"
-                           BackgroundColor="White"
+                           BackgroundColor="{StaticResource ElementColor}"
                            BorderColor="Transparent"
                            CornerRadius="15"
                            HeightRequest="50"
                            Padding="5">
                         <Entry x:Name="textboxPassword"
-                               BackgroundColor="White"
+                               BackgroundColor="{StaticResource ElementColor}"
+                               TextColor="White"
                                IsPassword="True"
-                               TextColor="Black"
                                PlaceholderColor="Gray"
                                Placeholder="Enter password"
                                Margin="5,0"/>
                     </Frame>
                 </Grid>
             </StackLayout>
+            
             <!--#endregion-->
             
             <Button Margin="0, 20"
                     CornerRadius="15"
                     Text="Sign in"
-                    TextColor="{StaticResource PrimaryColor}"
+                    BackgroundColor="{StaticResource ElementColor}"
+                    TextColor="{StaticResource ActiveColor}"
                     Clicked="Button_SignIn_Clicked"
                     x:Name="button1"/>
             <ActivityIndicator x:Name="activityIndicator"

@@ -11,17 +11,18 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
+
         Current = this;
         textboxUsername.Focused += (s, e) =>
         {
             frameUsername.BorderColor = Color.FromRgba(0, 0, 0, 0);
-            textboxUsername.TextColor = Color.FromRgb(0, 0, 0);
+            textboxUsername.TextColor = Colors.White;
             button1.IsEnabled = true;
         };
         textboxPassword.Focused += (s, e) =>
         {
             framePassword.BorderColor = Color.FromRgba(0, 0, 0, 0);
-            textboxPassword.TextColor = Color.FromRgb(0, 0, 0);
+            textboxPassword.TextColor = Colors.White;
             button1.IsEnabled = true;
         };
     }

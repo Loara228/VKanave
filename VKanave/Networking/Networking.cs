@@ -53,7 +53,8 @@ namespace VKanave.Networking
         {
             msg.Serialize();
             byte[] data = msg.Buffer;
-            Connection.Current.Stream.Write(data, 0, data.Length);
+            lock (_block)
+                Connection.Current.Stream.Write(data, 0, data.Length);
         }
 
         internal static void PrcMsg(Connection from, NetMessage msg)
@@ -71,5 +72,7 @@ namespace VKanave.Networking
             }
             return true;
         }
+
+        private static object _block = new object();
     }
 }

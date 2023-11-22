@@ -24,7 +24,9 @@ public partial class ConnectionPage : ContentPage
         if (!string.IsNullOrEmpty(LocalUser.Token))
         {
             activityIndicator1.IsRunning = false;
-            button1.IsVisible = true;
+            activityIndicator1.IsVisible = false;
+            layoutWelcome.IsVisible = true;
+            labelUsername.Text = LocalUser.Username;
             //await Navigation.PopModalAsync();
         }
     }
@@ -32,13 +34,13 @@ public partial class ConnectionPage : ContentPage
     private async Task Initialize()
     {
         await Task.Delay(500);
-        Connection.InitializeLocal();
+        Connection.Initialize();
         if (Connection.Current.Connect())
             await Continue();
         else
         {
             activityIndicator1.IsRunning = false;
-            var result = await DisplayAlert("Blya :(", "Failed to connect to the server", "Retry", "Cancel");
+            var result = await DisplayAlert("Error", "Failed to connect to the server", "Retry", "Cancel");
             if (result)
             {
                 activityIndicator1.IsRunning = true;

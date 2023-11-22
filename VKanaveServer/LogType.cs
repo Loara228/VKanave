@@ -14,6 +14,7 @@ namespace VKanaveServer
         SrlzLow,
         Networking,
         Connection,
+        NetMessage,
         SQL
     }
 }

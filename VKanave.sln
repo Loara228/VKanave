@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VKanave", "VKanave\VKanave.csproj", "{CBCF0EA9-B244-4D12-B98D-FD9D094B402F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A} = {428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VKanaveServer", "VKanaveServer\VKanaveServer.csproj", "{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VKanaveServer", "VKanaveServer\VKanaveServer.csproj", "{428FDE0F-3E81-4B4B-9E9C-10A35E2B976A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

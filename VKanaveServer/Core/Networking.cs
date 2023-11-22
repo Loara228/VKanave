@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using VKanave.Networking.NetMessages;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VKanaveServer.Core
 {
@@ -59,6 +58,7 @@ namespace VKanaveServer.Core
             NetMessage msg = NetMessage.Create(data);
             msg.Deserialize();
             Program.Log(LogType.SrlzHight, $"{msg} deserialized ({connection.Index})");
+            Program.Log(LogType.NetMessage, $"<= {msg.GetType().Name} ({connection.Index}/{connection.UserIdFriendly})");
             PrcMsg(connection, msg);
         }
 
@@ -69,6 +69,7 @@ namespace VKanaveServer.Core
             lock (connection.block)
                 connection.Stream.Write(msg.Buffer);
             Program.Log(LogType.Networking, $"data sent. {msg.Buffer.Length} bytes ({connection.Index})");
+            Program.Log(LogType.NetMessage, $"=> {msg.GetType().Name} ({connection.Index}/{connection.UserIdFriendly})");
         }
 
         internal static void PrcMsg(Connection from, NetMessage msg)

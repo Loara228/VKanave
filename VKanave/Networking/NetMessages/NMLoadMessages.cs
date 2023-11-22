@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VKanave.Models;
+using VKanave.Networking.NetMessages.NMCMFlags;
 using VKanave.Networking.NetObjects;
 using VKanave.Views;
 
@@ -30,6 +31,7 @@ namespace VKanave.Networking.NetMessages
             {
                 if (Messages != null && Messages.Length > 0)
                 {
+                    Networking.Send(new NMReadAll() { chatId = ChatPage.Current.User.ID, userId2 = LocalUser.Id });
                     var messages = Messages.ToList();
                     messages.Reverse();
                     Messages = messages.ToArray();

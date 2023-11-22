@@ -1,4 +1,5 @@
-﻿using VKanave.DB;
+﻿using System.Net;
+using VKanave.DB;
 using VKanave.Networking.NetMessages;
 using VKanave.Networking.NetObjects;
 using VKanaveServer.Core;
@@ -7,17 +8,16 @@ namespace VKanaveServer
 {
     internal class Program
     {
-        //INSERT INTO `messages` (`id`, `msg_from`, `msg_to`, `date`, `content`, `flags`) VALUES (NULL, '3', '6', '1699488140', 'hello!', '1');
         static void Main(string[] args)
         {
+            Log(LogType.Console, DateTime.UtcNow.AddHours(5).ToString());
             try
             {
-                if (!Database.Initialize(Database.SQLHostname, out Exception exc, Database.SQLUsername, Database.SQLPassword))
+                if (!Database.Initialize(out Exception exc))
                 {
                     Log(LogType.SQL, exc.Message, true);
                 }
-                Server.InitializeLocal();
-                Log(LogType.Console, "Initialized");
+                Server.Initialize(IPAddress.Any, 42069);
                 Server.Current?.Start();
             }
             catch(Exception exc)
@@ -29,6 +29,8 @@ namespace VKanaveServer
 
         internal static void Log(LogType logType, string message, bool error = false)
         {
+            if (_disabledLogs.Contains(logType))
+                return;
             Console.ForegroundColor = error ? ConsoleColor.Red : GetColor(logType);
             string t = "\t";
             if (logType == LogType.SQL)
@@ -52,15 +54,36 @@ namespace VKanaveServer
                 return ConsoleColor.Magenta;
             else if (log == LogType.Connection)
                 return ConsoleColor.White;
+            else if (log == LogType.NetMessage)
+                return ConsoleColor.Blue;
             return ConsoleColor.White;
         }
 
-        internal static string LocalIPAddress
+        internal static string IP
+        {
+            get => LOCAL ? LocalIPAddress : _ipAddress;
+        }
+
+        private static string LocalIPAddress
         {
             get => WINDOWS ? "127.0.0.1" : "10.0.2.2";
         }
 
+#if DEBUG
         public const bool LOCAL = true;
+#else
+        public const bool LOCAL = false;
+#endif
         public const bool WINDOWS = false;
+
+        private static string _ipAddress = string.Empty;
+
+        private static readonly List<LogType> _disabledLogs = new List<LogType>()
+        {
+            LogType.SrlzLow,
+            LogType.Networking,
+            LogType.SQL,
+            LogType.SrlzHight
+        };
     }
 }

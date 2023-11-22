@@ -11,9 +11,11 @@ namespace VKanave.DB
 {
     internal static class Database
     {
-        internal static bool Initialize(string hostname, out Exception exception, string user = "root", string password = "")
+        internal static bool Initialize(out Exception exception)
         {
-            _sqlConnection = new MySqlConnection($"Server={hostname};Port=3306;Database=vk;Uid={user};Pwd={password}");
+            string connectionString = $"Server={SQLHostname};Port={SQLPort};Database={_dtName};Uid={SQLUsername};Pwd={SQLPassword}";
+            Program.Log(LogType.SQL, connectionString);
+            _sqlConnection = new MySqlConnection(connectionString);
             bool result = Open(out exception);
             if (result)
                 Close();
@@ -84,19 +86,25 @@ namespace VKanave.DB
 
         internal static string SQLHostname
         {
-            get => Program.LOCAL ? "localhost" : "?";
+            get => Program.LOCAL ? "localhost" : "X";
         }
 
         internal static string SQLUsername
         {
-            get => Program.LOCAL ? "root" : "?";
+            get => Program.LOCAL ? "root" : "X";
         }
 
         internal static string SQLPassword
         {
-            get => Program.LOCAL ? "" : "?";
+            get => Program.LOCAL ? "" : "X";
         }
 
+        internal static int SQLPort
+        {
+            get => Program.LOCAL ? 3306 : 3306;
+        }
+
+        private static readonly string _dtName = "vk";
         private static MySqlConnection _sqlConnection;
         private static readonly object _block = new object();
 

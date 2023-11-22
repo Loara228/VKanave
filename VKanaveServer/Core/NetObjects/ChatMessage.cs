@@ -24,7 +24,7 @@ namespace VKanave.Networking.NetObjects
 
         public long ID
         {
-            get; private set;
+            get; set;
         }
 
         public string Content

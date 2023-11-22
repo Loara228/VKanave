@@ -19,6 +19,15 @@ public partial class ChatPage : ContentPage
 
         messagesList.ItemsSource = Messages;
 
+        richTextbox.Completed += SendChatMessage;
+
+#if ANDROID
+        Messages.CollectionChanged += (s, e) =>
+        {
+            ScrollToEnd();
+        };
+#endif
+
         Loaded += (s, e) => Networking.Networking.Send(new NMLoadMessages() { localUserId = LocalUser.Id, userId2 = _user.ID });
 
         messagesList.ItemTemplate = new DataTemplate(() =>
@@ -53,22 +62,45 @@ public partial class ChatPage : ContentPage
             dateTimeLabel.SetBinding(Label.TextProperty, new Binding("DateTime"));
             dateTimeLabel.SetBinding(Label.TextColorProperty, new Binding("DateTimeColor"));
 
-            unreadLabel.SetBinding(Label.IsVisibleProperty, new Binding("Unread"));
-            unreadLabel.SetBinding(Label.TextProperty, new Binding("UnreadText"));
+            unreadLabel.SetBinding(Label.IsVisibleProperty, new Binding("Unread", BindingMode.TwoWay));
+            unreadLabel.SetBinding(Label.TextProperty, new Binding("UnreadText", BindingMode.TwoWay));
 
             messageFrame.Content = messageLayout;
             messageLayout.Add(messageText);
             messageLayout.Add(unreadLabel);
             messageLayout.Add(dateTimeLabel);
 
+            TapGestureRecognizer tapRecognizer = new TapGestureRecognizer(); tapRecognizer.Tapped += async (s, e) =>
+            {
+                MessageModel chatMsg = (MessageModel)((s as View).BindingContext);
+                await OnMessageTapped(chatMsg, e);
+            };
+            messageFrame.GestureRecognizers.Add(tapRecognizer);
+
             return messageFrame;
         });
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Current.User = null;
+        Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
+    }
+
+    private async Task OnMessageTapped(MessageModel chatMsg, TappedEventArgs args)
+    {
+        string result = await DisplayActionSheet("ActionSheet", null, null, "delete", $"id: {chatMsg.ID}", $"{chatMsg.Unread}");
+        if (result == "delete")
+        {
+            Messages.Remove(chatMsg);
+        }
+    }
+
     private void SendChatMessage(object sender, EventArgs e)
     {
-        string message = richTextbox.Text;
-        if (message.Length > 0)
+        string? message = richTextbox.Text;
+        if (message != null && message.Length > 0)
         {
             richTextbox.Text = "";
             NMChatMessage msg = new NMChatMessage()
@@ -78,12 +110,11 @@ public partial class ChatPage : ContentPage
                     new ChatUser(User.ID, User.Username, 0),
                     0,
                     message,
-                    0,
-                    0)
+                    DateTime.UtcNow.ToUnixTime(),
+                    (int)ChatMessageFlags.UNREAD)
             };
             msg.id_from = LocalUser.Id;
             msg.id_to = User.ID;
-            System.Diagnostics.Debug.WriteLine($"message sent. from: {LocalUser.Id}. to: {User.ID}");
             Networking.Networking.Send(msg);
         }
     }
@@ -94,14 +125,10 @@ public partial class ChatPage : ContentPage
         return $"Last seen at " + dt.ToString();
     }
 
-    private void ImageButton_Clicked(object sender, EventArgs e)
+    public void ScrollToEnd()
     {
-        Navigation.PopModalAsync();
-    }
-
-    private void AddMessage(MessageModel message)
-    {
-        Messages.Add(message);
+        if (Messages.Count > 0)
+            messagesList.ScrollTo(Messages.Count - 1);
     }
 
     public static ChatPage Current
@@ -112,6 +139,7 @@ public partial class ChatPage : ContentPage
     public UserModel User
     {
         get => _user;
+        set => _user = value;
     }
 
     public ObservableCollection<MessageModel> Messages
@@ -120,4 +148,5 @@ public partial class ChatPage : ContentPage
     } = new ObservableCollection<MessageModel>();
 
     private UserModel _user;
+
 }
