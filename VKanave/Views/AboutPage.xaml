@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             x:Class="VKanave.Views.AboutPage"
+             Title="About"
+             BackgroundColor="{StaticResource ActiveColor}">
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="{StaticResource ElementColor}"/>
+    </ContentPage.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Path Stroke="Transparent" Data="m000.00000,-10.90l450.00000,0l0,333.00205c-83.71651,-135 -507.35568,2.89514 -538.25775,-23.20436l-6.74227,-309.83769z" Fill="#657bc3"/>
+        <Path Stroke="Transparent" Data="m000.00000,-10.999l450.99997,0l0,313.54692c-22.79164,-140 -544.72082,25.46713 -543.58122,-4.41192l-3.41875,-309.135z" Fill="#454f93"/>
+        <Path Stroke="Transparent" Data="m000.00000,-10.999l450.99997,0l0,0l0,264.80902c-61.20669,-126 -460.48018,83.8971 -548.00003,43.56921l0,-308.37823z" Fill="#34374f"/>
+        <StackLayout>
+            <Label Text="VKanave"
+                   HorizontalOptions="Center"
+                   FontSize="34"
+                   FontAttributes="Bold"
+                   Margin="0, 50, 0, 0"
+                   TextColor="{StaticResource ActiveColor}"
+                   FontFamily="OpenSansRegular"/>
+            <Label Text="Developed by Loara"
+                   HorizontalOptions="Center"
+                   FontSize="16"
+                   TextColor="LightGray"
+                   FontFamily="OpenSansRegular"/>
+        </StackLayout>
+        <Border Grid.Row="1"
+                Margin="20"
+                BackgroundColor="#E0E2FB"
+                StrokeThickness="0"
+                VerticalOptions="End">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="25, 25, 25, 25" />
+            </Border.StrokeShape>
+            <StackLayout Margin="25">
+                <Label Text="Contacts"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource ElementColor}"
+                       FontFamily="OpenSansRegular"/>
+                <StackLayout Orientation="Horizontal" Spacing="20" Margin="0, 20, 0, 20">
+                    <Image x:Name="vkImg" Source="vk_ico.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32"/>
+                    <Image x:Name="steamImg" Source="steam_ico.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32"/>
+                    <Image x:Name="discordImg" Source="discord_ico.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32"/>
+                </StackLayout>
+                <Label Text="Source code"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource ElementColor}"
+                       FontFamily="OpenSansRegular"/>
+                <StackLayout Orientation="Horizontal" Spacing="5">
+                    <Image x:Name="githubImg" Source="github_ico.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32"/>
+                    <Entry Text="https://github.com/blyatArtem/VKanave"
+                           FontSize="12"
+                           IsReadOnly="True"
+                           x:Name="textbox1"
+                           TextColor="{StaticResource ElementColor}"/>
+                </StackLayout>
+            </StackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

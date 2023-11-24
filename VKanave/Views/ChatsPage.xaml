@@ -23,8 +23,9 @@
 
                 <Button BackgroundColor="{StaticResource ElementColor}"
                         Text="Add user"
-                        TextColor="#808080"
-                        Grid.Column="1"/>
+                        TextColor="White"
+                        Grid.Column="1"
+                        Clicked="Button_Clicked"/>
             </Grid>
             <CollectionView x:Name="chatList" VerticalOptions="StartAndExpand">
             </CollectionView>

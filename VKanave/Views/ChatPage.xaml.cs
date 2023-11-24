@@ -4,6 +4,8 @@ using VKanave.Networking;
 using VKanave.Networking.NetMessages;
 using VKanave.Extensions;
 using VKanave.Networking.NetObjects;
+using VKanave.Networking.NetMessages.NMCMFlags;
+using CommunityToolkit.Maui.Alerts;
 
 namespace VKanave.Views;
 
@@ -38,8 +40,8 @@ public partial class ChatPage : ContentPage
             Label dateTimeLabel = new Label();
             Label unreadLabel = new Label();
 
-            messageFrame.Margin = 10;
-            messageFrame.Padding = 20;
+            messageFrame.Margin = 50;
+            messageFrame.Padding = 10;
             messageFrame.CornerRadius = 20;
             messageFrame.BorderColor = Colors.Transparent;
 
@@ -58,6 +60,7 @@ public partial class ChatPage : ContentPage
             messageFrame.SetBinding(StackLayout.MarginProperty, new Binding("Margin"));
 
             messageText.SetBinding(Label.TextProperty, new Binding("Content"));
+            messageText.SetBinding(Label.TextColorProperty, new Binding("TextColor"));
 
             dateTimeLabel.SetBinding(Label.TextProperty, new Binding("DateTime"));
             dateTimeLabel.SetBinding(Label.TextColorProperty, new Binding("DateTimeColor"));
@@ -90,10 +93,20 @@ public partial class ChatPage : ContentPage
 
     private async Task OnMessageTapped(MessageModel chatMsg, TappedEventArgs args)
     {
-        string result = await DisplayActionSheet("ActionSheet", null, null, "delete", $"id: {chatMsg.ID}", $"{chatMsg.Unread}");
-        if (result == "delete")
+        if (chatMsg.SystemMessage)
+            return;
+        string result = await DisplayActionSheet("ActionSheet", "cancel", null, "Copy", "Delete");
+        if (result == "Delete")
         {
             Messages.Remove(chatMsg);
+            if (!chatMsg.Local)
+                await Toast.Make("Message deleted locally").Show();
+            else
+                Networking.Networking.Send(new NMDelete() { messageId = chatMsg.ID, dialogId = User.ID });
+        }
+        else if (result == "Copy")
+        {
+            await Clipboard.SetTextAsync(chatMsg.Content);
         }
     }
 
@@ -122,6 +135,8 @@ public partial class ChatPage : ContentPage
     private string GetLastSeenTitle(int unixTime)
     {
         DateTime dt = unixTime.ToDateTime();
+        if (DateTime.Now < dt.AddMinutes(2))
+            return "Online";
         return $"Last seen at " + dt.ToString();
     }
 

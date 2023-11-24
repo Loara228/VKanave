@@ -6,6 +6,7 @@ using VKanave.Models;
 using VKanave.Networking;
 using VKanave.Networking.NetMessages;
 using VKanave.Networking.NetObjects;
+using VKanave.Views.Popups;
 
 namespace VKanave.Views;
 
@@ -98,8 +99,37 @@ public partial class ChatsPage : ContentPage
         chatList.ItemsSource = Chats;
         Loaded += async (s, e) =>
         {
-            await Navigation.PushModalAsync(new ConnectionPage());
+            string errorMessage = "unknown error";
+            bool connected = false;
+            if (LocalUser.Id == 0)
+            {
+                Connection.Initialize();
+                connected = Connection.Current.Connect(out var exc);
+                if (exc != null)
+                    errorMessage = exc.ToString();
+            }
+            else
+                return;
+
+            MauiProgram.DisplayNetworkError = !connected;
+
+            if (MauiProgram.DisplayNetworkError)
+            {
+                await Navigation.PushModalAsync(new NetworkErrorPage(errorMessage));
+                return;
+            }
+            if (LocalUser.Id == 0)
+            {
+                await Navigation.PushModalAsync(new LoginPage());
+                return;
+            }
         };
+    }
+
+    //Add user
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        this.ShowPopup(new AddUserPopup());
     }
 
     public async Task OpenChat(object value)

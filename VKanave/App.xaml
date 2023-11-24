@@ -10,8 +10,6 @@
             <Color x:Key="BackgroundColor">#1A1A26</Color>
             <Color x:Key="ElementColor">#272938</Color>
             <Color x:Key="ActiveColor">#879EEC</Color>
-            <Color x:Key="PrimaryColor">#2288F5</Color>
-            <Color x:Key="SecondaryColor">White</Color>
 
             <Style x:Key="text" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource SecondaryColor}"/>

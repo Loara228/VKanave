@@ -20,12 +20,16 @@ namespace VKanave.Networking.NetMessages
         public override void Action(Connection from)
         {
             base.Action(from);
-            Database.RunCommand($"INSERT INTO `messages` (`id_from`, `id_to`, `date`, `content`, `flags`) VALUES ('{id_from}', '{id_to}', '{Database.GetUnixTime()}', '{ChatMessage.Content}', '{(int)ChatMessageFlags.UNREAD}');", out var tb1);
+            int sqlFlags = SystemMessage ? (int)ChatMessageFlags.SYSTEM : (int)ChatMessageFlags.UNREAD;
+            Database.RunCommand($"INSERT INTO `messages` (`id_from`, `id_to`, `date`, `content`, `flags`) VALUES ('{id_from}', '{id_to}', '{Database.GetUnixTime()}', '{ChatMessage.Content}', '{sqlFlags}');", out var tb1);
+
             this.ChatMessage.ID = tb1.LastInsertedId;
 
             Program.Log(LogType.Console, $"Chat message from {id_from} to {id_to}. ID: {this.ChatMessage.ID}");
 
             this.ChatMessage.Flags = (int)(ChatMessageFlags.OUTBOX | ChatMessageFlags.UNREAD);
+            if (SystemMessage)
+                this.ChatMessage.Flags = (int)(ChatMessageFlags.SYSTEM);
             from.Send(new NMChatMessage()
             {
                 ChatMessage = this.ChatMessage,
@@ -36,6 +40,8 @@ namespace VKanave.Networking.NetMessages
             if (connectionTo != null)
             {
                 this.ChatMessage.Flags = (int)(ChatMessageFlags.UNREAD);
+                if (SystemMessage)
+                    this.ChatMessage.Flags = (int)(ChatMessageFlags.SYSTEM);
                 connectionTo.Send(new NMChatMessage()
                 {
                     ChatMessage = this.ChatMessage,
@@ -57,7 +63,12 @@ namespace VKanave.Networking.NetMessages
 
         public ChatMessage ChatMessage
         {
-            get; private set;
+            get; set;
+        }
+
+        public bool SystemMessage
+        {
+            get; set;
         }
 
         public long id_to, id_from;

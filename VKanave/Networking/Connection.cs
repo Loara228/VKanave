@@ -36,8 +36,9 @@ namespace VKanave.Networking
 #endif
         }
 
-        internal bool Connect()
+        internal bool Connect(out Exception exc)
         {
+            exc = null;
             bool result = false;
             try
             {
@@ -52,14 +53,16 @@ namespace VKanave.Networking
                             Networking.ReceiveData();
                         }
                     }
-                    catch
+                    catch(Exception exc)
                     {
+                        System.Diagnostics.Debug.WriteLine(exc.ToString());
                         Application.Current.Quit();
                     }
                 }).Start();
             }
-            catch
+            catch (Exception exc2)
             {
+                exc = exc2;
                 result = false;
             }
             return result;

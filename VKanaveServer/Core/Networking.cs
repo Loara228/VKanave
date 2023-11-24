@@ -67,7 +67,10 @@ namespace VKanaveServer.Core
             msg.Serialize();
             Program.Log(LogType.SrlzHight, $"{msg} serialized ({connection.Index})");
             lock (connection.block)
+            {
                 connection.Stream.Write(msg.Buffer);
+                connection.Stream.Flush();
+            }
             Program.Log(LogType.Networking, $"data sent. {msg.Buffer.Length} bytes ({connection.Index})");
             Program.Log(LogType.NetMessage, $"=> {msg.GetType().Name} ({connection.Index}/{connection.UserIdFriendly})");
         }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+               x:Class="VKanave.Views.Popups.AddUserPopup"
+               Color="Transparent">
+    <StackLayout BackgroundColor="{StaticResource ElementColor}">
+        <StackLayout Margin="30">
+            <Label Text="Add your friend on VKanave"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   Margin="8"/>
+            <Label Text="You can add friends with their VKanave username"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   FontSize="Small"
+                   Margin="8"
+                   TextColor="White"/>
+            <Label Text="Add via username"
+                   HorizontalOptions="Start"
+                   FontSize="Caption"
+                   TextColor="Gray"
+                   Margin="8, 30, 8, 2"/>
+
+            <Grid>
+                <Frame x:Name="frame1"
+                       BackgroundColor="#212531"
+                       BorderColor="Transparent"
+                       CornerRadius="15"
+                       HeightRequest="50"
+                       Padding="5">
+                    <Entry x:Name="textbox1"
+                           BackgroundColor="Transparent"
+                           TextColor="White"
+                           PlaceholderColor="Gray"
+                           Placeholder="Enter a username"
+                           Margin="5,0"/>
+                </Frame>
+            </Grid>
+
+            <Label Text="result"
+                   FontSize="Small"
+                   x:Name="labelResult"
+                   IsVisible="False"/>
+
+            <Button Text="Add to friends!"
+                    Margin="8, 80, 8, 8"
+                    TextColor="White"
+                    BackgroundColor="{StaticResource ActiveColor}"
+                    FontAttributes="Bold"
+                    Clicked="Button_Clicked"/>
+            <Button Text="Cancel"
+                    Margin="8, 8, 8, 0"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    FontAttributes="Bold"
+                    Clicked="Button_Clicked_1"/>
+        </StackLayout>
+    </StackLayout>
+</toolkit:Popup>

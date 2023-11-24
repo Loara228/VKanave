@@ -11,16 +11,21 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
-
         Current = this;
         textboxUsername.Focused += (s, e) =>
         {
             frameUsername.BorderColor = Color.FromRgba(0, 0, 0, 0);
             textboxUsername.TextColor = Colors.White;
             button1.IsEnabled = true;
+            framePassword.BorderColor = Color.FromRgba(0, 0, 0, 0);
+            textboxPassword.TextColor = Colors.White;
+            button1.IsEnabled = true;
         };
         textboxPassword.Focused += (s, e) =>
         {
+            frameUsername.BorderColor = Color.FromRgba(0, 0, 0, 0);
+            textboxUsername.TextColor = Colors.White;
+            button1.IsEnabled = true;
             framePassword.BorderColor = Color.FromRgba(0, 0, 0, 0);
             textboxPassword.TextColor = Colors.White;
             button1.IsEnabled = true;
@@ -29,11 +34,6 @@ public partial class LoginPage : ContentPage
 
     private void Button_SignIn_Clicked(object sender, EventArgs e)
     {
-        if (MauiProgram.DebugCode == 2)
-        {
-            Navigation.PopModalAsync();
-            return;
-        }
         if (!CheckInputs1())
         {
             MarkUsername();
@@ -159,6 +159,16 @@ public partial class LoginPage : ContentPage
         Toast.Make("A user with that username already exists.", CommunityToolkit.Maui.Core.ToastDuration.Long).Show();
     }
 
+    protected override void OnDisappearing()
+    {
+        if (LocalUser.Id != 0)
+        {
+            Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
+            Navigation.PopModalAsync();
+        }
+        base.OnDisappearing();
+    }
+
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         if (!_animation)
@@ -185,8 +195,6 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    public static LoginPage Current;
-
     public bool AuthorizationMode
     {
         get => _auth;
@@ -210,6 +218,7 @@ public partial class LoginPage : ContentPage
         }
     }
 
+    public static LoginPage Current;
 
     private readonly List<char> allowedChars = new List<char>()
     {

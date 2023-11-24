@@ -4,6 +4,18 @@
              x:Class="VKanave.Views.LoginPage"
              BackgroundColor="{StaticResource BackgroundColor}">
     <Grid>
+        <Path StrokeThickness="0"
+              Data="m-15.27775,83.36314c185.3321,-39.57306 40.4257,34.0427 132.97929,25.53202c92.55358,-8.51067 159.57515,-101.06426 243.61806,-69.14923c84.04291,31.91503 159.57515,89.36208 165.95815,212.76686c6.38301,123.40478 15.95751,-317.02262 15.27775,-316.34286c0.67977,-0.67977 -571.66309,18.46925 -571.27902,19.14902c-0.38407,-0.67977 29.40329,-4.9351 13.44578,128.04419l-0.00001,0z"
+              Fill="#879eec"/>
+        <Path StrokeThickness="0"
+              VerticalOptions="End"
+              Data="m-24,433c1,0 88,-67 281,-41c193,26 176,84 290,96c114,12 -37,95 -36,93c1,-2 -579,-9 -579,-9c0,0 15,-137 17,-137c2,0 26,-2 27,-2z"
+              Fill="#232330"/>
+        <Path StrokeThickness="0"
+              TranslationY="60"
+              VerticalOptions="End"
+              Data="m20,630c58,-20 147,-12 250,12c103,24 194,79 321,43c127,-36 -37,95 -36,93c1,-2 -579,-9 -579,-9c0,0 -149,86 -108,2c41,-84 94,-121 152,-141z"
+              Fill="#313142"/>
         <StackLayout Margin="20">
             
             <!--#region Logo & Title-->
@@ -11,16 +23,19 @@
             <StackLayout Orientation="Horizontal">
                 <Image Source="vk_logo.png"
                        HorizontalOptions="StartAndExpand"
-                       WidthRequest="100"/>
+                       WidthRequest="100"
+                       Aspect="AspectFit"/>
                 <StackLayout Margin="0, 45">
                     <Label Style="{StaticResource text}"
                            HorizontalOptions="EndAndExpand"
+                           FontFamily="OpenSansRegular"
                            FontSize="16"
                            Text="Authorization"
                            x:Name="label1"/>
                     <Label Style="{StaticResource text}"
                            HorizontalOptions="EndAndExpand"
                            FontSize="32"
+                           FontFamily="OpenSansRegular"
                            FontAttributes="Bold"
                            Text="VKanave"/>
                 </StackLayout>
@@ -82,22 +97,24 @@
             <Button Margin="0, 20"
                     CornerRadius="15"
                     Text="Sign in"
-                    BackgroundColor="{StaticResource ElementColor}"
-                    TextColor="{StaticResource ActiveColor}"
+                    BackgroundColor="{StaticResource ActiveColor}"
+                    TextColor="{StaticResource BackgroundColor}"
+                    FontSize="16"
                     Clicked="Button_SignIn_Clicked"
                     x:Name="button1"/>
             <ActivityIndicator x:Name="activityIndicator"
                                IsRunning="False"/>
             
             <!--#region footer-->
+            
             <StackLayout VerticalOptions="FillAndExpand" Orientation="Horizontal">
-                <Label TextColor="{StaticResource SecondaryColor}"
+                <Label TextColor="White"
                        Text="Forgot password?"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="EndAndExpand"
                        TextDecorations="Underline"
                        x:Name="label2"/>
-                <Label TextColor="{StaticResource SecondaryColor}"
+                <Label TextColor="White"
                        Text="Sign up"
                        HorizontalOptions="EndAndExpand"
                        VerticalOptions="EndAndExpand"
@@ -108,6 +125,7 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
+            
             <!--#endregion-->
             
         </StackLayout>

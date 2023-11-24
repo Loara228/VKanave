@@ -13,9 +13,8 @@ namespace VKanave.DB
     {
         internal static bool Initialize(out Exception exception)
         {
-            string connectionString = $"Server={SQLHostname};Port={SQLPort};Database={_dtName};Uid={SQLUsername};Pwd={SQLPassword}";
-            Program.Log(LogType.SQL, connectionString);
-            _sqlConnection = new MySqlConnection(connectionString);
+            Program.Log(LogType.SQL, $"Server={SQLHostname};Port={SQLPort};Database={_dtName};Uid=***;Pwd=***");
+            _sqlConnection = new MySqlConnection($"Server={SQLHostname};Port={SQLPort};Database={_dtName};Uid={SQLUsername};Pwd={SQLPassword}");
             bool result = Open(out exception);
             if (result)
                 Close();
@@ -86,22 +85,22 @@ namespace VKanave.DB
 
         internal static string SQLHostname
         {
-            get => Program.LOCAL ? "localhost" : "X";
+            get => Program.LOCAL ? "localhost" : "?";
         }
 
         internal static string SQLUsername
         {
-            get => Program.LOCAL ? "root" : "X";
+            get => Program.LOCAL ? "root" : "?";
         }
 
         internal static string SQLPassword
         {
-            get => Program.LOCAL ? "" : "X";
+            get => Program.LOCAL ? "" : "?";
         }
 
         internal static int SQLPort
         {
-            get => Program.LOCAL ? 3306 : 3306;
+            get => Program.LOCAL ? 3306 : 0;
         }
 
         private static readonly string _dtName = "vk";

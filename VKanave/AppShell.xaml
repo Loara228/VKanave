@@ -6,11 +6,43 @@
     xmlns:local="clr-namespace:VKanave.Views"
     Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="True"
+    FlyoutBackgroundColor="#1A1A26"
     Shell.BackgroundColor="#272938">
 
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="#272938">
+            <StackLayout Margin="10">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="avatar.png"
+                           HorizontalOptions="Start"
+                           HeightRequest="50"
+                           WidthRequest="50"/>
+                    <StackLayout VerticalOptions="Center" Margin="10, 20, 0, 20">
+                        <Label Text="Username"
+                               x:Name="labelUsername"
+                               x:FieldModifier="Public"
+                               VerticalOptions="Center"
+                               FontSize="Medium"/>
+                        <Label Text="Online"
+                               VerticalOptions="Center"
+                               TextColor="Gray"
+                       FontSize="Caption"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+    
     <ShellContent
         Title="Chats"
         ContentTemplate="{DataTemplate local:ChatsPage}"
+        Icon="users.svg"
         Route="Main" />
+
+    <ShellContent
+        Title="Info"
+        ContentTemplate="{DataTemplate local:AboutPage}"
+        Icon="info.png"
+        Route="Info" />
 
 </Shell>

@@ -32,14 +32,13 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#879EEC" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#1A1A26" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -50,18 +49,22 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\avatar.png" />
-	  <None Remove="Resources\Images\back.png" />
+	  <None Remove="Resources\Images\discord_ico.png" />
+	  <None Remove="Resources\Images\github_ico.png" />
+	  <None Remove="Resources\Images\info.svg" />
 	  <None Remove="Resources\Images\send.png" />
+	  <None Remove="Resources\Images\steam_ico.png" />
 	  <None Remove="Resources\Images\users.svg" />
+	  <None Remove="Resources\Images\vk_ico.png" />
 	  <None Remove="Resources\Images\vk_logo.png" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
 		<AndroidKeyStore>True</AndroidKeyStore>
 		<AndroidSigningKeyStore>..\key.keystore</AndroidSigningKeyStore>
-		<AndroidSigningStorePass>X</AndroidSigningStorePass>
+		<AndroidSigningStorePass>?</AndroidSigningStorePass>
 		<AndroidSigningKeyAlias>MauiAlias</AndroidSigningKeyAlias>
-		<AndroidSigningKeyPass>X</AndroidSigningKeyPass>
+		<AndroidSigningKeyPass>?</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -78,16 +81,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\ChatPage.xaml">
+	  <MauiXaml Update="Views\AboutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ConnectionPage.xaml">
+	  <MauiXaml Update="Views\ChatPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ChatsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NetworkErrorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\AddUserPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

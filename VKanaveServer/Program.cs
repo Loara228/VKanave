@@ -61,10 +61,10 @@ namespace VKanaveServer
 
         internal static string IP
         {
-            get => LOCAL ? LocalIPAddress : _ipAddress;
+            get => LOCAL ? LocalIP : _ipAddress;
         }
 
-        private static string LocalIPAddress
+        private static string LocalIP
         {
             get => WINDOWS ? "127.0.0.1" : "10.0.2.2";
         }
@@ -80,10 +80,10 @@ namespace VKanaveServer
 
         private static readonly List<LogType> _disabledLogs = new List<LogType>()
         {
-            LogType.SrlzLow,
-            LogType.Networking,
-            LogType.SQL,
-            LogType.SrlzHight
+            //LogType.SrlzLow,
+            //LogType.Networking,
+            //LogType.SQL,
+            //LogType.SrlzHight
         };
     }
 }

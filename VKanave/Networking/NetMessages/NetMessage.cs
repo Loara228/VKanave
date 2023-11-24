@@ -101,6 +101,9 @@ namespace VKanave.Networking.NetMessages
 
         protected void Write(string value)
         {
+            value = value.Replace("\'", "&#39");
+            value = value.Replace("\"", "&#34");
+            value = value.Replace("`", "&#768");
             byte[] data = Encoding.UTF8.GetBytes(value);
             Write((short)data.Length);
             Write(data);
@@ -159,13 +162,19 @@ namespace VKanave.Networking.NetMessages
 
         #endregion
 
-        #region Write
+        #region Read
 
         protected string ReadString()
         {
             int lenght = ReadInt();
             byte[] data = ReadBytes(lenght);
-            return Encoding.UTF8.GetString(data, 0, lenght);
+            string value = Encoding.UTF8.GetString(data, 0, lenght);
+
+            value = value.Replace("&#39", "\'");
+            value = value.Replace("&#34", "\"");
+            value = value.Replace("&#768", "`");
+
+            return value;
         }
 
         protected byte[] ReadBytes(int size)

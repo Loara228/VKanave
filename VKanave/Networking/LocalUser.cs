@@ -13,6 +13,7 @@ namespace VKanave.Networking
             _username = username;
             _token = token;
             _id = id;
+            AppShell.UpdateLocalInfo(_username);
         }
 
         public static string Username
@@ -33,7 +34,7 @@ namespace VKanave.Networking
             get => _id;
         }
 
-        private static long _id;
+        private static long _id = 0;
         private static string _username;
         private static string _token;
     }

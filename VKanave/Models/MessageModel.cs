@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Media;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,21 +24,29 @@ namespace VKanave.Models
         {
             get
             {
+                string str = Flags.HasFlag(ChatMessageFlags.OUTBOX) ? "You: " : "";
                 if (Content.Length > 30)
-                    return Content.Substring(0, 25) + "...";
-                return Content;
+                    return str + Content.Substring(0, 25) + "...";
+                return str + Content;
             }
         }
 
         public Thickness Margin
         {
-            get => Local ? new Thickness(40, 5, 10, 5) : new Thickness(10, 5, 40, 5);
+            get
+            {
+                if (SystemMessage)
+                    return new Thickness(5);
+                    return Local ? new Thickness(40, 5, 10, 5) : new Thickness(10, 5, 40, 5);
+            }
         }
 
         public Color BackgroundColor
         {
             get
             {
+                if (SystemMessage)
+                    return Colors.Transparent;
                 if (Local)
                     return Color.FromArgb("#879EEC");
                 return Color.FromArgb("#272938");
@@ -46,13 +55,30 @@ namespace VKanave.Models
 
         public Color DateTimeColor
         {
-            get => Local ? Color.FromArgb("#C5DFFC") : Colors.Gray;
+            get
+            {
+                if (SystemMessage)
+                    return Colors.Transparent;
+                return Local ? Color.FromArgb("#C5DFFC") : Colors.Gray;
+            }
+        }
+
+        public Color TextColor
+        {
+            get
+            {
+                if (SystemMessage)
+                    return Colors.Gray;
+                return Colors.White;
+            }
         }
 
         public bool Unread
         {
             get
             {
+                if (SystemMessage)
+                    return false;
                 if (_unread == null)
                     return Flags.HasFlag(ChatMessageFlags.UNREAD);
                 return (bool)_unread;
@@ -68,13 +94,20 @@ namespace VKanave.Models
 
         public bool NewMessage
         {
-            get => Flags.HasFlag(ChatMessageFlags.UNREAD) && !Flags.HasFlag(ChatMessageFlags.OUTBOX);
+            get
+            {
+                if (SystemMessage)
+                    return false;
+                return Flags.HasFlag(ChatMessageFlags.UNREAD) && !Flags.HasFlag(ChatMessageFlags.OUTBOX);
+            }
         }
 
         public string UnreadText
         {
             get
             {
+                if (SystemMessage)
+                    return "";
                 if (_unread != null && _unread == false)
                     return "";
                 if (Flags.HasFlag(ChatMessageFlags.UNREAD))
@@ -90,6 +123,11 @@ namespace VKanave.Models
         public bool Local
         {
             get => Flags.HasFlag(ChatMessageFlags.OUTBOX);
+        }
+
+        public bool SystemMessage
+        {
+            get => Flags.HasFlag(ChatMessageFlags.SYSTEM);
         }
 
         private bool? _unread = null;

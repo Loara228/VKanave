@@ -7,7 +7,6 @@ public partial class App : Application
 	public App()
 	{
 		InitializeComponent();
-
 		MainPage = new AppShell();
 	}
 
@@ -17,6 +16,9 @@ public partial class App : Application
 
 		window.Width = 450;
 		window.Height = 850;
+
+		window.X = 0;
+		window.Y = 0;
 
 		return window;
     }

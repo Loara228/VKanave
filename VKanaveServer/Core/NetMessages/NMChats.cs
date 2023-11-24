@@ -73,7 +73,7 @@ namespace VKanave.Networking.NetMessages
         private ChatMessage LoadLastMessage(long user_from, long user_to, int max_date)
         {
             long secondUser = user_from != localUserId ? user_from : user_to;
-            string queryJoin = user_from != localUserId ? $"join users on users.user_id = messages.id_from " : $"join users on users.user_id = messages.id_to ";
+            string queryJoin = $"join users on users.user_id = {secondUser} ";   
             string query = 
                 $"select id, date, content, flags, users.user_id, users.username, users.last_active " +
                 $"from messages " +
@@ -85,6 +85,9 @@ namespace VKanave.Networking.NetMessages
             int messageDate = int.Parse(table.rows[0].values[1].ToString());
             string messageContent = table.rows[0].values[2].ToString();
             int messageFlags = int.Parse(table.rows[0].values[3].ToString());
+
+            if (localUserId == user_from)
+                messageFlags += (int)ChatMessageFlags.OUTBOX;
 
             long userId = long.Parse(table.rows[0].values[4].ToString());
             string userUsername = table.rows[0].values[5].ToString();

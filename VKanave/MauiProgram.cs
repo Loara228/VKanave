@@ -8,11 +8,7 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		if (DebugCode == 2)
-		{
-			LocalUser.NewUser("test", "test", 0);
-		}
-		var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -28,13 +24,7 @@ public static class MauiProgram
 		return builder.Build();
 	}
 
-    /// <summary>
-    /// Херня чтобы не регаться постоянно и делать красивый интерфейс)
-    /// <para>0 - nothing</para>
-    /// <para>1 - skip connection</para>
-	/// <para>2 - skip auth</para>
-    /// </summary>
-    public const int DebugCode = 0;
+	public static bool DisplayNetworkError = false;
 	public const bool LOCAL = false;
-	public const string IP_ADDRESS = "X";
+	public const string IP_ADDRESS = "?";
 }

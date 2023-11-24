@@ -19,7 +19,8 @@ namespace VKanave.Extensions
         {
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixtime);
-            return dtDateTime;
+            int offset = DateTimeOffset.Now.Offset.Hours;
+            return dtDateTime.AddHours(offset);
         }
     }
 }
