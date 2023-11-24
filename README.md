@@ -10,17 +10,25 @@
 |--|--|--|--|
 | <img src="Assets/p3.png" alt="image" width="300" height="450"> | <img src="Assets/chats.png" alt="image" width="300" height="450"> | <img src="Assets/p2.png" alt="image" width="300" height="450"> | <img src="Assets/chat1.png" alt="image" width="300" height="450"> |
 
-<img align="center" src="Assets/p1.png" width="400" height="auto" alt="image">
+<p align="center">
+<img src="Assets/p1.png" width="300" height="auto">
+</p>P
 
 # Компиляция
 
-### App
+### Android (client)
 
-[Android](VKanave/compile.bat)
+```sh
+dotnet publish -c release -r ubuntu.20.04-x64
+```
+[.bat file](VKanave/compile.bat)
 
-### Server
+### Ubuntu 20.04-x64 (server)
 
-[Ubuntu 20.04-x64](VKanaveServer/compile.bat)
+```sh
+dotnet publish -c release -f:net8.0-android
+```
+[.bat file](VKanaveServer/compile.bat)
 
 # Запуск сервера
 
