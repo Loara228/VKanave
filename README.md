@@ -6,22 +6,26 @@
 <b>Добро пожаловать в прекрасную ВКанаву.</b>
 </h2>
 
-| Авторизация | Чаты | Всплывающее меню | Чатик |
-|--|--|--|--|
-| <img src="Assets/p3.png" alt="image" width="300" height="450"> | <img src="Assets/chats.png" alt="image" width="300" height="450"> | <img src="Assets/p2.png" alt="image" width="300" height="450"> | <img src="Assets/chat1.png" alt="image" width="300" height="450"> |
+| Авторизация | Создание чата |
+|--|--| 
+| ![](Assets/auth.gif) | ![](Assets/add.gif) |
 
-<p align="center">
-<img src="Assets/p1.png" width="300" height="auto">
-</p>P
+| Всплывающее меню | Чаты |
+|--|--| 
+| <img src="Assets/flyoutMenu.png" width="300" height="auto"> | <img src="Assets/chats.png" width="300" height="auto"> |
+
+![](Assets/chat.gif) 
 
 # Компиляция
 
 ### Android (client)
 
+[.bat file](VKanave/compile.bat)
+
 ```sh
 dotnet publish -c release -r ubuntu.20.04-x64
 ```
-[.bat file](VKanave/compile.bat)
+[.bat file](VKanaveServer/compile.bat)
 
 ### Ubuntu 20.04-x64 (server)
 
@@ -60,6 +64,6 @@ tmux new -s vkanave
 
 ## Результат:
 
-![](Assets/s1.png)
+![](Assets/server1.png)
 
-![](Assets/s2.png)
+![](Assets/server2.png)
