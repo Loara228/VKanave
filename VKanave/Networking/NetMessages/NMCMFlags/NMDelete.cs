@@ -31,9 +31,15 @@ namespace VKanave.Networking.NetMessages.NMCMFlags
                     }
                 }
                 if (msg2 != null)
-                ChatPage.Current.Messages.Remove(msg2);
+                {
+                    msg2.Delete();
+                }
             }
+            else
+                LoadMessages();
         }
+
+        private void LoadMessages() => Networking.Send(new NMChats() { localUserId = LocalUser.Id });
 
         public long dialogId;
         public long messageId;

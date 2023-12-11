@@ -2,7 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VKanave.Views.LoginPage"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ContentPage.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="{StaticResource ActiveColor}"/>
+    </ContentPage.Behaviors>
+    
     <Grid>
         <Path StrokeThickness="0"
               Data="m-15.27775,83.36314c185.3321,-39.57306 40.4257,34.0427 132.97929,25.53202c92.55358,-8.51067 159.57515,-101.06426 243.61806,-69.14923c84.04291,31.91503 159.57515,89.36208 165.95815,212.76686c6.38301,123.40478 15.95751,-317.02262 15.27775,-316.34286c0.67977,-0.67977 -571.66309,18.46925 -571.27902,19.14902c-0.38407,-0.67977 29.40329,-4.9351 13.44578,128.04419l-0.00001,0z"

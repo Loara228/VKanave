@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+               x:Class="VKanave.Views.Popups.TextboxPopup"
+               Color="Transparent">
+    <StackLayout BackgroundColor="{StaticResource ElementColor}">
+        <StackLayout Margin="30"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Spacing="8">
+            <Label Text="Title"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   x:Name="labelTitle"
+                   Margin="8"/>
+
+            <Grid>
+                <Frame x:Name="frame1"
+                       BackgroundColor="#212531"
+                       BorderColor="Transparent"
+                       CornerRadius="15"
+                       HeightRequest="50"
+                       Padding="5">
+                    <Entry x:Name="textbox1"
+                           BackgroundColor="Transparent"
+                           TextColor="White"
+                           PlaceholderColor="Gray"
+                           Placeholder="Enter the text"
+                           Margin="5,0"
+                           WidthRequest="300"/>
+                </Frame>
+            </Grid>
+        </StackLayout>
+        <Button Text="OK"
+                Margin="8, 80, 8, 8"
+                TextColor="White"
+                BackgroundColor="{StaticResource ActiveColor}"
+                FontAttributes="Bold"
+                x:Name="button1"
+                VerticalOptions="End"
+                Clicked="Button_Clicked"/>
+    </StackLayout>
+</toolkit:Popup>

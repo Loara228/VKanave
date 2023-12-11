@@ -75,7 +75,7 @@ namespace VKanave.Networking.NetMessages
             long secondUser = user_from != localUserId ? user_from : user_to;
             string queryJoin = $"join users on users.user_id = {secondUser} ";   
             string query = 
-                $"select id, date, content, flags, users.user_id, users.username, users.last_active " +
+                $"select id, date, content, flags, users.user_id, users.username, users.last_active, users.display_name " +
                 $"from messages " +
                 queryJoin +
                 $"where ((id_to = {localUserId} and id_from = {secondUser}) or (id_to = {secondUser} and id_from = {localUserId})) and `date` = {max_date}";
@@ -88,13 +88,16 @@ namespace VKanave.Networking.NetMessages
 
             if (localUserId == user_from)
                 messageFlags += (int)ChatMessageFlags.OUTBOX;
+            if (((ChatMessageFlags)messageFlags).HasFlag(ChatMessageFlags.DELETED))
+                messageContent = "MESSAGE DELETED";
 
             long userId = long.Parse(table.rows[0].values[4].ToString());
             string userUsername = table.rows[0].values[5].ToString();
             int userLastActive = int.Parse(table.rows[0].values[6].ToString());
+            string displayName = table.rows[0].values[7].ToString();
 
             return new ChatMessage(
-                new ChatUser(secondUser, userUsername, userLastActive),
+                new ChatUser(secondUser, userUsername, userLastActive, displayName),
                 messageId,
                 messageContent,
                 messageDate,

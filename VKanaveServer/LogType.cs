@@ -15,6 +15,7 @@ namespace VKanaveServer
         Networking,
         Connection,
         NetMessage,
-        SQL
+        SQL,
+        FileSystem
     }
 }

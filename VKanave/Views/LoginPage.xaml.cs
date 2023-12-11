@@ -12,7 +12,7 @@ public partial class LoginPage : ContentPage
     {
         InitializeComponent();
         Current = this;
-        textboxUsername.Focused += (s, e) =>
+        textboxUsername.TextChanged += (s, e) =>
         {
             frameUsername.BorderColor = Color.FromRgba(0, 0, 0, 0);
             textboxUsername.TextColor = Colors.White;
@@ -21,7 +21,7 @@ public partial class LoginPage : ContentPage
             textboxPassword.TextColor = Colors.White;
             button1.IsEnabled = true;
         };
-        textboxPassword.Focused += (s, e) =>
+        textboxPassword.TextChanged += (s, e) =>
         {
             frameUsername.BorderColor = Color.FromRgba(0, 0, 0, 0);
             textboxUsername.TextColor = Colors.White;
@@ -92,7 +92,7 @@ public partial class LoginPage : ContentPage
         return b;
     }
 
-    public void SignIn(string username, string token, long id)
+    public void SignIn(string username, string token, long id, int reg, string displayName, string bio)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -107,7 +107,7 @@ public partial class LoginPage : ContentPage
             else
             {
                 // auth successfully :)
-                LocalUser.NewUser(username, token, id);
+                LocalUser.NewUser(username, token, id, reg, displayName, bio);
                 Navigation.PopModalAsync();
             }
         });

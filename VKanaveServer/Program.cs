@@ -10,6 +10,9 @@ namespace VKanaveServer
     {
         static void Main(string[] args)
         {
+            if (OperatingSystem.IsWindows())
+                WINDOWS = true;
+
             Log(LogType.Console, DateTime.UtcNow.AddHours(5).ToString());
             try
             {
@@ -20,7 +23,7 @@ namespace VKanaveServer
                 Server.Initialize(IPAddress.Any, 42069);
                 Server.Current?.Start();
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 Console.WriteLine(exc.ToString());
                 Console.ReadLine();
@@ -56,6 +59,8 @@ namespace VKanaveServer
                 return ConsoleColor.White;
             else if (log == LogType.NetMessage)
                 return ConsoleColor.Blue;
+            else if (log == LogType.FileSystem)
+                return ConsoleColor.DarkYellow;
             return ConsoleColor.White;
         }
 
@@ -74,14 +79,14 @@ namespace VKanaveServer
 #else
         public const bool LOCAL = false;
 #endif
-        public const bool WINDOWS = false;
+        public static bool WINDOWS = false;
 
         private static string _ipAddress = string.Empty;
 
         private static readonly List<LogType> _disabledLogs = new List<LogType>()
         {
-            //LogType.SrlzLow,
-            //LogType.Networking,
+            LogType.SrlzLow,
+            LogType.Networking,
             //LogType.SQL,
             //LogType.SrlzHight
         };

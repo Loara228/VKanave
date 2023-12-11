@@ -8,11 +8,12 @@ namespace VKanave.Networking.NetObjects
 {
     public class ChatUser
     {
-        public ChatUser(long userId, string username, int lastActive)
+        public ChatUser(long userId, string username, int lastActive, string displayName)
         {
             this.ID = userId;
             this.Username = username;
             this.LastActive = lastActive;
+            this.DisplayName = displayName;
         }
 
         public long ID
@@ -21,6 +22,11 @@ namespace VKanave.Networking.NetObjects
         }
 
         public string Username
+        {
+            get; private set;
+        } = "";
+
+        public string DisplayName
         {
             get; private set;
         } = "";

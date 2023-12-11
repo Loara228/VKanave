@@ -16,6 +16,8 @@ namespace VKanave.Networking.NetMessages
             this.username = username;
             this.password = password;
             token = string.Empty;
+            displayName = string.Empty;
+            bio = string.Empty;
         }
 
         public NMAuth()
@@ -23,18 +25,21 @@ namespace VKanave.Networking.NetMessages
             username = string.Empty;
             password = string.Empty;
             token = string.Empty;
+            displayName = string.Empty;
+            bio = string.Empty;
         }
 
         public override void Action(Connection connection)
         {
             if (LoginPage.Current != null)
             {
-                LoginPage.Current.SignIn(username, token, id);
+                LoginPage.Current.SignIn(username, token, id, reg, displayName, bio);
             }
         }
 
-        public string username, password, token;
+        public string username, password, token, displayName, bio;
         public long id;
+        public int reg;
 
     }
 }

@@ -53,7 +53,7 @@ namespace VKanave.Networking.NetMessages
             {
                 ChatMessage =
                 new ChatMessage(
-                    new ChatUser(0, "", 0),
+                    new ChatUser(0, "", 0, ""),
                     0,
                     "Chat created",
                     Database.GetUnixTime(),

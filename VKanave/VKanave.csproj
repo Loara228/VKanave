@@ -50,10 +50,12 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\avatar.png" />
 	  <None Remove="Resources\Images\discord_ico.png" />
+	  <None Remove="Resources\Images\edit.svg" />
 	  <None Remove="Resources\Images\github_ico.png" />
 	  <None Remove="Resources\Images\info.svg" />
 	  <None Remove="Resources\Images\send.png" />
 	  <None Remove="Resources\Images\steam_ico.png" />
+	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Resources\Images\users.svg" />
 	  <None Remove="Resources\Images\vk_ico.png" />
 	  <None Remove="Resources\Images\vk_logo.png" />
@@ -97,6 +99,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Popups\AddUserPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Popups\TextboxPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

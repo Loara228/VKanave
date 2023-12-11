@@ -9,7 +9,7 @@
 
             <!--#region HEADER-->
 
-            <StackLayout BackgroundColor="{StaticResource ElementColor}" Orientation="Horizontal" HeightRequest="70">
+            <StackLayout BackgroundColor="{StaticResource ElementColor}" Orientation="Horizontal" HeightRequest="70" x:Name="layoutHeader">
                 <Image Source="avatar.png" Margin="20, 10, 0, 10"/>
                 <StackLayout Padding="10" HorizontalOptions="Start">
                     <Label Text="Username"
@@ -63,8 +63,9 @@
                    Grid.Column="0"/>
             <ImageButton Source="send.png"
                          Clicked="SendChatMessage"
-                         HeightRequest="40"
-                         WidthRequest="40"
+                         HeightRequest="35"
+                         WidthRequest="35"
+                         Margin="5"
                          Aspect="AspectFit"
                          VerticalOptions="Center"
                          Grid.Column="1"

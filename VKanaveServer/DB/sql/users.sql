@@ -34,7 +34,7 @@ CREATE TABLE `users` (
   `password_hash` tinytext COLLATE utf8mb4_general_ci NOT NULL,
   `reg` int NOT NULL,
   `token` text COLLATE utf8mb4_general_ci NOT NULL,
-  `last_active` int NOT NULL
+  `last_active` int NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

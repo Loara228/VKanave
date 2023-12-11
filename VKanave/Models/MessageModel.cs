@@ -10,8 +10,43 @@ using VKanave.Networking.NetObjects;
 
 namespace VKanave.Models
 {
-    public record class MessageModel(long ID, string Content, int UnixTime, ChatMessageFlags Flags) : INotifyPropertyChanged
+    public record class MessageModel(long ID, string Content, int UnixTime) : INotifyPropertyChanged
     {
+        public MessageModel(long ID, string Content, int UnixTime, ChatMessageFlags Flags) : this(ID, Content, UnixTime)
+        {
+            this.Flags = Flags;
+        }
+
+        public void Delete()
+        {
+            if (Flags.HasFlag(ChatMessageFlags.DELETED) || Flags.HasFlag(ChatMessageFlags.SYSTEM))
+                return;
+            Flags = Flags | ChatMessageFlags.SYSTEM | ChatMessageFlags.DELETED;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Unread"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UnreadText"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Margin"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TextColor"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BackgroundColor"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NewMessage"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DateTimeColor"));
+        }
+
+        public ChatMessageFlags Flags
+        {
+            get; set;
+        }
+
+        public string Text
+        {
+            get
+            {
+                if (Flags.HasFlag(ChatMessageFlags.DELETED))
+                    return "MESSAGE DELETED";
+                return Content;
+            }
+        }
+
         public DateTime DateTime
         {
             get

@@ -21,7 +21,7 @@ namespace VKanave.Networking.NetMessages.NMCMFlags
         {
             base.Action(from);
 
-            Database.RunCommand($"update `messages` set `flags` = {(int)ChatMessageFlags.DELETED} WHERE id = {messageId}", out _);
+            Database.RunCommand($"update `messages` set `flags` = {(int)(ChatMessageFlags.DELETED | ChatMessageFlags.SYSTEM)} WHERE id = {messageId}", out _);
 
             Connection? connection = Server.Current?.GetConnectionFromUserId(dialogId);
             connection?.Send(new NMDelete() { dialogId = this.dialogId, messageId = this.messageId });

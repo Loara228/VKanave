@@ -40,6 +40,12 @@
         Route="Main" />
 
     <ShellContent
+        Title="Profile"
+        ContentTemplate="{DataTemplate local:ProfilePage}"
+        Icon="user.png"
+        Route="Profile" />
+
+    <ShellContent
         Title="Info"
         ContentTemplate="{DataTemplate local:AboutPage}"
         Icon="info.png"

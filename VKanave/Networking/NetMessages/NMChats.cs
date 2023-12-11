@@ -35,7 +35,7 @@ namespace VKanave.Networking.NetMessages
                     if (Chats != null && Chats.Length > 0)
                         Chats.ToList().ForEach(x =>
                         {
-                            ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.ID, x.Date),
+                            ChatsPage.Chats.Add(new ChatModel(new UserModel(x.User.Username, x.User.ID, x.Date, x.User.DisplayName),
                                                     new MessageModel(0, x.Content, x.Date, (ChatMessageFlags)x.Flags)));
                         });
                     else

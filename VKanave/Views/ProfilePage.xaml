@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VKanave.Views.ProfilePage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="ProfilePage">
+    <Grid>
+        <StackLayout>
+            <!--header-->
+            <Border BackgroundColor="{StaticResource ElementColor}"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 0, 0, 20, 20">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="avatar.png"
+                           WidthRequest="60"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Start"
+                           Margin="15"/>
+                    <StackLayout>
+                        <!--display name-->
+                        <StackLayout Orientation="Horizontal"
+                                     x:Name="displayNameLayout">
+                            <Label Text="Loading..."
+                                   VerticalOptions="CenterAndExpand"
+                                   FontAttributes="Bold"
+                                   FontSize="Large"
+                                   TextColor="White"
+                                   x:Name="labelDisplayName"
+                                   Margin="5, 18, 0, 0"/>
+                            <Image Source="edit.svg"
+                                   WidthRequest="15"
+                                   HeightRequest="15"
+                                   Margin="15, 15, 0, 0"
+                                   x:Name="imageEditor1"/>
+                        </StackLayout>
+                        <!--online (last seen)-->
+                        <Label Text="Loading..."
+                               x:Name="labelLastActive"
+                               FontSize="Small"
+                               TextColor="Gray"
+                               VerticalOptions="FillAndExpand"
+                               Margin="5, 0, 0, 0"/>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+            <!--User info-->
+            <StackLayout BackgroundColor="{StaticResource ElementColor}"
+                         Margin="0, 20, 0, 0">
+                <!--username-->
+                <StackLayout BackgroundColor="{StaticResource ElementColor}"
+                             Margin="10, 5, 5, 5"
+                             Spacing="5">
+
+                    <Label Text="@Username (Loading...)"
+                           FontAttributes="Bold"
+                           FontSize="Default"
+                           TextColor="White"
+                           x:Name="labelUsername"/>
+                    <Label Text="Username"
+                           FontSize="Small"
+                           TextColor="Gray"/>
+                </StackLayout>
+                <BoxView HeightRequest="1"
+                         Margin="1"
+                         Color="{StaticResource BackgroundColor}"/>
+                <!--reg-->
+                <StackLayout BackgroundColor="{StaticResource ElementColor}"
+                             Margin="10, 5, 5, 5"
+                             Spacing="5">
+                    <Label Text="?"
+                           FontAttributes="Bold"
+                           FontSize="Default"
+                           TextColor="White"
+                           x:Name="labelReg"/>
+                    <Label Text="Registration date"
+                           FontSize="Small"
+                           TextColor="Gray"/>
+                </StackLayout>
+                <BoxView HeightRequest="1"
+                         Margin="1"
+                         Color="{StaticResource BackgroundColor}"/>
+                <!--bio-->
+                <StackLayout BackgroundColor="{StaticResource ElementColor}"
+                             x:Name="layoutBio"
+                             Margin="10, 5, 5, 5"
+                             Spacing="5">
+                    <Label Text="Empty"
+                           FontAttributes="Bold"
+                           FontSize="Default"
+                           TextColor="White"
+                           x:Name="labelBio"/>
+                    <Label Text="Bio (Tap to edit)"
+                           x:Name="labelBioCaption"
+                           FontSize="Small"
+                           TextColor="Gray"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </Grid>
+</ContentPage>

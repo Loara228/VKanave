@@ -100,7 +100,7 @@ namespace VKanave.DB
 
         internal static int SQLPort
         {
-            get => Program.LOCAL ? 3306 : 0;
+            get => Program.LOCAL ? 3306 : 3306;
         }
 
         private static readonly string _dtName = "vk";

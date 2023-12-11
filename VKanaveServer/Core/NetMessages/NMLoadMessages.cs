@@ -43,20 +43,27 @@ namespace VKanave.Networking.NetMessages
                 List<ChatMessage> messages = new List<ChatMessage>();
                 foreach (var row in table.rows)
                 {
+
                     int flags = int.Parse(row.values[5].ToString());
-                    if (((ChatMessageFlags)flags).HasFlag(ChatMessageFlags.DELETED))
-                        continue;
+
                     int id = int.Parse(row.values[0].ToString());
                     int id_from = int.Parse(row.values[1].ToString());
                     int id_to = int.Parse(row.values[2].ToString());
                     int date = int.Parse(row.values[3].ToString());
                     string content = row.values[4].ToString();
+
                     if (id_from == localUserId)
                     {
                         flags = (int)((ChatMessageFlags)flags | ChatMessageFlags.OUTBOX);
                     }
+
+                    if (((ChatMessageFlags)flags).HasFlag(ChatMessageFlags.DELETED))
+                    {
+                        content = "MESSAGE DELETED";
+                    }
+
                     messages.Add(
-                        new ChatMessage(new ChatUser(0, "", 0),
+                        new ChatMessage(new ChatUser(0, "", 0, ""),
                         id,
                         content,
                         date,

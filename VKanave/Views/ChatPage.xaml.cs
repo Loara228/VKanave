@@ -23,6 +23,14 @@ public partial class ChatPage : ContentPage
 
         richTextbox.Completed += SendChatMessage;
 
+        TapGestureRecognizer recognizer = new TapGestureRecognizer();
+        recognizer.Tapped += async (s, e) =>
+        {
+            navigateToProfile = true;
+            await Navigation.PushModalAsync(new ProfilePage(new ProfileInfoModel(User._username, User.unixTime, User.ID)));
+        };
+        layoutHeader.GestureRecognizers.Add(recognizer);
+
 #if ANDROID
         Messages.CollectionChanged += (s, e) =>
         {
@@ -59,7 +67,7 @@ public partial class ChatPage : ContentPage
             messageFrame.SetBinding(StackLayout.BackgroundColorProperty, new Binding("BackgroundColor"));
             messageFrame.SetBinding(StackLayout.MarginProperty, new Binding("Margin"));
 
-            messageText.SetBinding(Label.TextProperty, new Binding("Content"));
+            messageText.SetBinding(Label.TextProperty, new Binding("Text"));
             messageText.SetBinding(Label.TextColorProperty, new Binding("TextColor"));
 
             dateTimeLabel.SetBinding(Label.TextProperty, new Binding("DateTime"));
@@ -87,8 +95,11 @@ public partial class ChatPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        Current.User = null;
-        Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
+        if (!navigateToProfile)
+        {
+            Current.User = null;
+            Networking.Networking.Send(new NMChats() { localUserId = LocalUser.Id });
+        }
     }
 
     private async Task OnMessageTapped(MessageModel chatMsg, TappedEventArgs args)
@@ -98,11 +109,13 @@ public partial class ChatPage : ContentPage
         string result = await DisplayActionSheet("ActionSheet", "cancel", null, "Copy", "Delete");
         if (result == "Delete")
         {
-            Messages.Remove(chatMsg);
             if (!chatMsg.Local)
-                await Toast.Make("Message deleted locally").Show();
-            else
-                Networking.Networking.Send(new NMDelete() { messageId = chatMsg.ID, dialogId = User.ID });
+                return;
+
+            //Messages.Remove(chatMsg);
+            chatMsg.Delete();
+
+            Networking.Networking.Send(new NMDelete() { messageId = chatMsg.ID, dialogId = User.ID });
         }
         else if (result == "Copy")
         {
@@ -120,7 +133,7 @@ public partial class ChatPage : ContentPage
             {
                 ChatMessage =
                 new ChatMessage(
-                    new ChatUser(User.ID, User.Username, 0),
+                    new ChatUser(User.ID, User.Username, 0, ""),
                     0,
                     message,
                     DateTime.UtcNow.ToUnixTime(),
@@ -163,5 +176,7 @@ public partial class ChatPage : ContentPage
     } = new ObservableCollection<MessageModel>();
 
     private UserModel _user;
+
+    public static  bool navigateToProfile = false;
 
 }
