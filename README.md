@@ -23,7 +23,7 @@
 * [Отправка и принятие данных](VKanaveServer/Core/Networking.cs)
     - из NetworkStream читаются данные размером в NetMessage.BUFFER_SIZE. Далее данные добавляются в массив. После этого они десериализируется в дочерний объект NetMessage
 * [Бинарная сериализация объектов](VKanaveServer/Core/NetMessages/NetMessage.cs)
-    - Объект NetMessage хранит массив байт (_buffer), в который записывается информация о сетевом пакете. Например, для записи числа используется метод Write
+    - Объект NetMessage хранит массив байт (_buffer), в который записывается информация о сетевом пакете. Например, для записи числа используется метод Write(Int32), который используется Write(Byte[])
   ```cs
   protected void Write(byte[] bytes)
     {
