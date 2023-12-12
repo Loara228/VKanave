@@ -16,6 +16,8 @@
 
 ![](Assets/chat.gif) 
 
+<img src="Assets/profile.png" width="300" height="auto">
+
 # Компиляция
 
 ### Android (client)
