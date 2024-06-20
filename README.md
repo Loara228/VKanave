@@ -16,6 +16,38 @@
 
 ![](Assets/chat.gif) 
 
+<img src="Assets/profile.png" width="300" height="auto">
+
+# Реализовано:
+
+* [Отправка и принятие данных](VKanaveServer/Core/Networking.cs)
+    - из NetworkStream читаются данные размером в NetMessage.BUFFER_SIZE. Далее данные добавляются в массив. После этого они десериализируется в дочерний объект NetMessage
+* [Бинарная сериализация объектов](VKanaveServer/Core/NetMessages/NetMessage.cs)
+    - Объект NetMessage хранит массив байт (_buffer), в который записывается информация о сетевом пакете. Например, для записи числа используется метод Write(Int32), который используется Write(Byte[])
+  ```cs
+  protected void Write(byte[] bytes)
+    {
+        int size = bytes.Length;
+        Resize(size);
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            _buffer[_position + i] = bytes[i];
+        }
+        _position += bytes.Length;
+    }
+  
+* MVVM
+* Anti SQL Injection
+* Регистрация и авторизация
+* Настройка личного профиля
+    - Изменение отображаемого имени
+* Отправка и получения сообщений
+* [Флаги сообщений](VKanaveServer/Core/NetObjects/ChatMessageFlags.cs), которые меняются в реальном времени
+    - Удаление сообщений
+    - Показывает прочитали сообщение или нет в реальном времени
+* Удобный просмотр полных логов
+    - Можно отключить нежелаемые логи [здесь](https://github.com/blyatArtem/VKanave/blob/6ecf83cecd937647985997635a62bfe831a05b1d/VKanaveServer/Program.cs#L86)
+
 # Компиляция
 
 ### Android (client)
