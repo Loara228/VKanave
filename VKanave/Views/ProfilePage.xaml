@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VKanave.Views.ProfilePage"
+             xmlns:ctk="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
              BackgroundColor="{StaticResource BackgroundColor}"
              Title="ProfilePage">
     <Grid>
@@ -12,11 +13,13 @@
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 0, 0, 20, 20">
                 <StackLayout Orientation="Horizontal">
-                    <Image Source="avatar.png"
-                           WidthRequest="60"
-                           Aspect="AspectFit"
-                           HorizontalOptions="Start"
-                           Margin="15"/>
+                    <ctk:AvatarView ImageSource="avatar.png"
+                                    WidthRequest="60"
+                                    HeightRequest="60"
+                                    HorizontalOptions="Start"
+                                    Margin="15"
+                                    x:Name="image1"
+                                    BorderWidth="0"/>
                     <StackLayout>
                         <!--display name-->
                         <StackLayout Orientation="Horizontal"

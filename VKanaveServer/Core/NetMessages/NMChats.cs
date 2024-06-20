@@ -94,7 +94,7 @@ namespace VKanave.Networking.NetMessages
             long userId = long.Parse(table.rows[0].values[4].ToString());
             string userUsername = table.rows[0].values[5].ToString();
             int userLastActive = int.Parse(table.rows[0].values[6].ToString());
-            string displayName = table.rows[0].values[7].ToString();
+            string displayName = table.rows[0].values[7] == null ? "" : table.rows[0].values[7].ToString();
 
             return new ChatMessage(
                 new ChatUser(secondUser, userUsername, userLastActive, displayName),

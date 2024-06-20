@@ -77,6 +77,24 @@ public partial class ProfilePage : ContentPage
         TapGestureRecognizer tapRecognizer2 = new TapGestureRecognizer();
         tapRecognizer2.Tapped += (s, e) => EditDisplayname();
         displayNameLayout.GestureRecognizers.Add(tapRecognizer2);
+
+        TapGestureRecognizer tapRecognizer3 = new TapGestureRecognizer();
+        tapRecognizer3.Tapped += async (s, e) =>
+        {
+            var img = await FilePicker.Default.PickAsync();
+            if (img != null)
+            {
+                if (img.FileName.EndsWith("jpg", StringComparison.OrdinalIgnoreCase) || img.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase))
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        image1.ImageSource = ImageSource.FromFile(img.FullPath);
+                    });
+                }
+            }
+        };
+
+        image1.GestureRecognizers.Add(tapRecognizer3);
     }
 
     private void EditBio()

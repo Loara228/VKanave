@@ -85,17 +85,17 @@ namespace VKanave.DB
 
         internal static string SQLHostname
         {
-            get => Program.LOCAL ? "localhost" : "?";
+            get => Program.LOCAL ? "localhost" : "localhost";
         }
 
         internal static string SQLUsername
         {
-            get => Program.LOCAL ? "root" : "?";
+            get => Program.LOCAL ? "root" : "loara";
         }
 
         internal static string SQLPassword
         {
-            get => Program.LOCAL ? "" : "?";
+            get => Program.LOCAL ? "" : "ccvbccvb";
         }
 
         internal static int SQLPort

@@ -37,8 +37,8 @@ namespace VKanave.Networking.NetMessages
                     long locid = long.Parse(table.rows[0].values[1].ToString());
                     NMAuth msg = new NMAuth() { token = tokendb, id = locid };
                     msg.username = this.username;
-                    msg.displayName = table.rows[0].values[2].ToString();
-                    msg.bio = table.rows[0].values[3].ToString();
+                    msg.displayName = table.rows[0].values[2] == null ? "" : table.rows[0].values[2].ToString();
+                    msg.bio = table.rows[0].values[3] == null ? "" : table.rows[0].values[3].ToString();
                     msg.reg = int.Parse(table.rows[0].values[4].ToString());
                     _ = Database.RunCommand($"UPDATE `users` SET `last_active`= {Database.GetUnixTime()} WHERE `user_id` = {locid}", out var _);
                     from.User = new NetObjects.ChatUser(locid, username, 0, "");

@@ -26,5 +26,5 @@ public static class MauiProgram
 
 	public static bool DisplayNetworkError = false;
 	public const bool LOCAL = false;
-	public const string IP_ADDRESS = "?";
+	public const string IP_ADDRESS = "45.155.207.150";
 }
