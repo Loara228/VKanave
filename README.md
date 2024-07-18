@@ -6,17 +6,8 @@
 <b>Добро пожаловать в прекрасную ВКанаву.</b>
 </h2>
 
-| Авторизация | Создание чата |
-|--|--| 
-| ![](Assets/auth.gif) | ![](Assets/add.gif) |
-
-| Всплывающее меню | Чаты |
-|--|--| 
-| <img src="Assets/flyoutMenu.png" width="300" height="auto"> | <img src="Assets/chats.png" width="300" height="auto"> |
-
-![](Assets/chat.gif) 
-
-<img src="Assets/profile.png" width="300" height="auto">
+интерфейс:
+https://github.com/LosevArtyom/VKanave/tree/master/Assets
 
 # Реализовано:
 
